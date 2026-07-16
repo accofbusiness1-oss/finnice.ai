@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>FinNice AI - Personal Finance Indonesia</title>
+    <title>Financely AI - Personal Finance Indonesia</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Chart.js -->
@@ -88,20 +88,24 @@
                     <i class="fas fa-wallet text-white text-xl"></i>
                 </div>
                 <div>
-                    <h1 class="text-xl font-extrabold tracking-tight bg-gradient-to-r from-white via-gray-200 to-blue-500 bg-clip-text text-transparent">FinNice AI</h1>
+                    <h1 class="text-xl font-extrabold tracking-tight bg-gradient-to-r from-white via-gray-200 to-blue-500 bg-clip-text text-transparent">Financely AI</h1>
                     <p class="text-[10px] text-gray-500 font-semibold tracking-wider uppercase">Personal Wealth Manager</p>
                 </div>
             </div>
 
-            <!-- Profile Overview -->
-            <div class="flex items-center gap-3 p-3 bg-darkBg/50 rounded-xl mb-6 border border-gray-800">
-                <div class="w-10 h-10 rounded-full bg-gradient-to-tr from-blue-600 to-emerald-500 flex items-center justify-center font-bold text-white shadow-md">
-                    UM
+            <!-- Profile Overview (Dinamis dengan tombol ubah profil cepat) -->
+            <div class="flex items-center gap-3 p-3 bg-darkBg/50 rounded-xl mb-6 border border-gray-800 relative group">
+                <div id="user-initials" class="w-10 h-10 rounded-full bg-gradient-to-tr from-blue-600 to-emerald-500 flex items-center justify-center font-bold text-white shadow-md shrink-0">
+                    --
                 </div>
-                <div>
-                    <p class="text-sm font-bold text-white">Rako Putra</p>
-                    <p class="text-xs text-emerald-400 font-medium">Financial Level: Gold</p>
+                <div class="flex-1 min-w-0">
+                    <p id="user-name" class="text-sm font-bold text-white truncate">Loading...</p>
+                    <p id="user-level" class="text-xs text-emerald-400 font-medium">Financial Level: --</p>
                 </div>
+                <!-- Tombol Ubah Nama -->
+                <button onclick="triggerEditProfile()" class="text-gray-500 hover:text-blue-400 p-1.5 transition shrink-0" title="Ubah Nama Pengguna">
+                    <i class="fas fa-edit text-xs"></i>
+                </button>
             </div>
 
             <!-- Navigation Links -->
@@ -134,9 +138,12 @@
         </div>
 
         <!-- Footer Info -->
-        <div class="pt-4 border-t border-gray-800 text-center">
-            <p class="text-xs text-gray-500">FinNice AI Premium v2.5</p>
-            <p class="text-[10px] text-gray-600 mt-1">Multi-Year Lifetime Edition</p>
+        <div class="pt-4 border-t border-gray-800 text-center space-y-2">
+            <button onclick="triggerDemoDataLoad()" class="w-full bg-blue-900/10 hover:bg-blue-900/30 text-gray-500 hover:text-blue-400 py-1.5 rounded-lg text-[10px] font-bold transition flex items-center justify-center gap-1 border border-gray-850">
+                <i class="fas fa-database text-blue-500"></i> Muat Data Demo (Testing)
+            </button>
+            <p class="text-xs text-gray-500">Financely AI Premium v2.5</p>
+            <p class="text-[10px] text-gray-600 mt-1">Production Ready Edition</p>
         </div>
     </aside>
 
@@ -146,14 +153,14 @@
             <div class="bg-blue-600 p-1.5 rounded-lg">
                 <i class="fas fa-wallet text-white text-base"></i>
             </div>
-            <span class="text-lg font-bold text-white tracking-wide">FinNice AI</span>
+            <span class="text-lg font-bold text-white tracking-wide">Financely AI</span>
         </div>
         <div class="flex items-center gap-3">
             <button onclick="openQuickAddModal()" class="bg-blue-600 hover:bg-blue-500 text-white p-2 rounded-lg text-sm">
                 <i class="fas fa-plus"></i>
             </button>
-            <div class="w-8 h-8 rounded-full bg-gradient-to-tr from-blue-600 to-emerald-500 flex items-center justify-center text-xs font-bold text-white">
-                UM
+            <div id="user-initials-mobile" class="w-8 h-8 rounded-full bg-gradient-to-tr from-blue-600 to-emerald-500 flex items-center justify-center text-xs font-bold text-white">
+                --
             </div>
         </div>
     </header>
@@ -199,7 +206,7 @@
             <!-- SECTION 1: RINGKASAN KEUANGAN & NET WORTH -->
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
                 
-                <!-- Net Worth Card (Premium Glassmorphism Style) -->
+                <!-- Net Worth Card -->
                 <div class="col-span-1 md:col-span-2 bg-gradient-to-tr from-blue-900/60 via-darkCard to-gray-900/40 p-6 rounded-3xl border border-blue-500/20 relative overflow-hidden flex flex-col justify-between shadow-xl min-h-[180px]">
                     <div class="absolute -top-12 -right-12 w-32 h-32 bg-blue-500/10 rounded-full blur-2xl pointer-events-none"></div>
                     <div>
@@ -221,7 +228,7 @@
                     </div>
                 </div>
 
-                <!-- Safe Spending Card (Behavioral Economist Feature) -->
+                <!-- Safe Spending Card -->
                 <div class="bg-darkCard p-6 rounded-3xl border border-gray-800 relative overflow-hidden flex flex-col justify-between shadow-xl">
                     <div>
                         <div class="flex items-center justify-between">
@@ -232,9 +239,9 @@
                     </div>
                     <div class="mt-4">
                         <div class="w-full bg-gray-800 h-1.5 rounded-full overflow-hidden">
-                            <div id="bar-safe-spend" class="bg-emerald-500 h-full rounded-full" style="width: 75%"></div>
+                            <div id="bar-safe-spend" class="bg-emerald-500 h-full rounded-full" style="width: 100%"></div>
                         </div>
-                        <p class="text-[10px] text-gray-500 mt-1">Sisa Anggaran Harian: <span id="lbl-safe-spend-pct" class="text-emerald-400 font-semibold">75%</span></p>
+                        <p class="text-[10px] text-gray-500 mt-1">Sisa Anggaran Harian: <span id="lbl-safe-spend-pct" class="text-emerald-400 font-semibold">100%</span></p>
                     </div>
                 </div>
 
@@ -267,60 +274,54 @@
                     <i class="fas fa-heartbeat text-red-500"></i> Indikator Kesehatan Finansial (Financial KPI)
                 </h3>
                 <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
-                    <!-- KPI 1 -->
                     <div class="bg-darkBg/60 p-4 rounded-2xl border border-gray-800 flex flex-col items-center text-center justify-between">
                         <span class="text-[10px] text-gray-500 font-bold uppercase">Health Score</span>
                         <div class="relative flex items-center justify-center my-2">
-                            <span id="kpi-health-val" class="text-2xl font-extrabold text-emerald-400">92</span>
+                            <span id="kpi-health-val" class="text-2xl font-extrabold text-emerald-400">100</span>
                         </div>
-                        <span id="kpi-health-lbl" class="text-[10px] bg-emerald-500/15 text-emerald-400 px-2.5 py-0.5 rounded-full font-bold">Aman</span>
+                        <span id="kpi-health-lbl" class="text-[10px] bg-emerald-500/15 text-emerald-400 px-2.5 py-0.5 rounded-full font-bold">Prima</span>
                     </div>
-                    <!-- KPI 2 -->
                     <div class="bg-darkBg/60 p-4 rounded-2xl border border-gray-800 flex flex-col items-center text-center justify-between">
                         <span class="text-[10px] text-gray-500 font-bold uppercase">Saving Score</span>
                         <div class="relative flex items-center justify-center my-2">
-                            <span id="kpi-saving-val" class="text-2xl font-extrabold text-emerald-400">85</span>
+                            <span id="kpi-saving-val" class="text-2xl font-extrabold text-gray-400">0</span>
                         </div>
-                        <span id="kpi-saving-lbl" class="text-[10px] bg-emerald-500/15 text-emerald-400 px-2.5 py-0.5 rounded-full font-bold">Bagus</span>
+                        <span id="kpi-saving-lbl" class="text-[10px] bg-gray-500/15 text-gray-400 px-2.5 py-0.5 rounded-full font-bold">Netral</span>
                     </div>
-                    <!-- KPI 3 -->
                     <div class="bg-darkBg/60 p-4 rounded-2xl border border-gray-800 flex flex-col items-center text-center justify-between">
                         <span class="text-[10px] text-gray-500 font-bold uppercase">Spending Score</span>
                         <div class="relative flex items-center justify-center my-2">
-                            <span id="kpi-spending-val" class="text-2xl font-extrabold text-yellow-400">68</span>
+                            <span id="kpi-spending-val" class="text-2xl font-extrabold text-emerald-400">100</span>
                         </div>
-                        <span id="kpi-spending-lbl" class="text-[10px] bg-yellow-500/15 text-yellow-400 px-2.5 py-0.5 rounded-full font-bold">Impulsif</span>
+                        <span id="kpi-spending-lbl" class="text-[10px] bg-emerald-500/15 text-emerald-400 px-2.5 py-0.5 rounded-full font-bold">Hemat</span>
                     </div>
-                    <!-- KPI 4 -->
                     <div class="bg-darkBg/60 p-4 rounded-2xl border border-gray-800 flex flex-col items-center text-center justify-between">
                         <span class="text-[10px] text-gray-500 font-bold uppercase">Debt Score</span>
                         <div class="relative flex items-center justify-center my-2">
-                            <span id="kpi-debt-val" class="text-2xl font-extrabold text-emerald-400">95</span>
+                            <span id="kpi-debt-val" class="text-2xl font-extrabold text-emerald-400">100</span>
                         </div>
-                        <span id="kpi-debt-lbl" class="text-[10px] bg-emerald-500/15 text-emerald-400 px-2.5 py-0.5 rounded-full font-bold">Kecil</span>
+                        <span id="kpi-debt-lbl" class="text-[10px] bg-emerald-500/15 text-emerald-400 px-2.5 py-0.5 rounded-full font-bold">Bebas Hutang</span>
                     </div>
-                    <!-- KPI 5 -->
                     <div class="bg-darkBg/60 p-4 rounded-2xl border border-gray-800 flex flex-col items-center text-center justify-between">
                         <span class="text-[10px] text-gray-500 font-bold uppercase">Emergency Score</span>
                         <div class="relative flex items-center justify-center my-2">
-                            <span id="kpi-emergency-val" class="text-2xl font-extrabold text-red-400">40</span>
+                            <span id="kpi-emergency-val" class="text-2xl font-extrabold text-gray-400">0</span>
                         </div>
-                        <span id="kpi-emergency-lbl" class="text-[10px] bg-red-500/15 text-red-400 px-2.5 py-0.5 rounded-full font-bold">Kritis</span>
+                        <span id="kpi-emergency-lbl" class="text-[10px] bg-gray-500/15 text-gray-400 px-2.5 py-0.5 rounded-full font-bold">Belum Ada</span>
                     </div>
-                    <!-- KPI 6 -->
                     <div class="bg-darkBg/60 p-4 rounded-2xl border border-gray-800 flex flex-col items-center text-center justify-between">
                         <span class="text-[10px] text-gray-500 font-bold uppercase">Budget Discipline</span>
                         <div class="relative flex items-center justify-center my-2">
-                            <span id="kpi-budget-val" class="text-2xl font-extrabold text-emerald-400">88%</span>
+                            <span id="kpi-budget-val" class="text-2xl font-extrabold text-emerald-400">100%</span>
                         </div>
-                        <span id="kpi-budget-lbl" class="text-[10px] bg-emerald-500/15 text-emerald-400 px-2.5 py-0.5 rounded-full font-bold">Disiplin</span>
+                        <span id="kpi-budget-lbl" class="text-[10px] bg-emerald-500/15 text-emerald-400 px-2.5 py-0.5 rounded-full font-bold">Sempurna</span>
                     </div>
                 </div>
             </div>
 
             <!-- SECTION 3: GRAFIK & DIAGRAM MULTI-YEAR -->
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                <!-- Line Chart: Cashflow & Net Worth Evolution (Multi-Year) -->
+                <!-- Line Chart -->
                 <div class="lg:col-span-2 bg-darkCard p-6 rounded-3xl border border-gray-800">
                     <div class="flex items-center justify-between mb-4">
                         <div>
@@ -334,7 +335,7 @@
                     </div>
                 </div>
 
-                <!-- Pie Chart: Distribusi Pengeluaran Terbesar -->
+                <!-- Doughnut Chart -->
                 <div class="bg-darkCard p-6 rounded-3xl border border-gray-800 flex flex-col justify-between">
                     <div>
                         <h3 class="text-md font-bold text-white mb-1">Destinasi Pengeluaran Terbesar</h3>
@@ -344,14 +345,13 @@
                         <canvas id="chart-expense-destinations"></canvas>
                     </div>
                     <div class="mt-4 text-xs text-center text-gray-500">
-                        *Makan online & impulsif belanja mendominasi pengeluaran Anda.
+                        *Catat pengeluaran baru untuk melihat rincian grafis di sini.
                     </div>
                 </div>
             </div>
 
-            <!-- SECTION 4: DIAGRAM PERBANDINGAN INCOME VS EXPENSE & HISTOGRAM MINGGUAN -->
+            <!-- SECTION 4: DIAGRAM PERBANDINGAN INCOME VS EXPENSE -->
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                <!-- Bar Chart: Income vs Expense per Tahun -->
                 <div class="bg-darkCard p-6 rounded-3xl border border-gray-800">
                     <h3 class="text-md font-bold text-white mb-1">Perbandingan Pendapatan vs Pengeluaran</h3>
                     <p class="text-xs text-gray-500 mb-4">Menilai apakah rasio tabungan stabil dari tahun ke tahun.</p>
@@ -360,7 +360,6 @@
                     </div>
                 </div>
 
-                <!-- Heatmap atau Daily Spending Heat Map Simulation -->
                 <div class="bg-darkCard p-6 rounded-3xl border border-gray-800 flex flex-col justify-between">
                     <div>
                         <h3 class="text-md font-bold text-white mb-1">Visualisasi Kepadatan Pengeluaran Harian</h3>
@@ -376,14 +375,13 @@
                         <div class="text-xs text-gray-500 font-semibold">Sab</div>
                         <div class="text-xs text-gray-500 font-semibold">Min</div>
                         
-                        <!-- Heatmap cells -->
                         <div class="h-10 bg-emerald-500/10 rounded-xl flex items-center justify-center text-xs text-emerald-400 font-bold border border-emerald-500/20" title="Sangat Hemat">H</div>
-                        <div class="h-10 bg-emerald-500/20 rounded-xl flex items-center justify-center text-xs text-emerald-400 font-bold border border-emerald-500/20" title="Hemat">H</div>
                         <div class="h-10 bg-emerald-500/10 rounded-xl flex items-center justify-center text-xs text-emerald-400 font-bold border border-emerald-500/20" title="Sangat Hemat">H</div>
-                        <div class="h-10 bg-yellow-500/30 rounded-xl flex items-center justify-center text-xs text-yellow-400 font-bold border border-yellow-500/20" title="Waspada">W</div>
-                        <div class="h-10 bg-red-500/40 rounded-xl flex items-center justify-center text-xs text-red-400 font-bold border border-red-500/20" title="Konsumtif">K</div>
-                        <div class="h-10 bg-red-500/60 rounded-xl flex items-center justify-center text-xs text-red-200 font-bold border border-red-500/20" title="Sangat Konsumtif">SK</div>
-                        <div class="h-10 bg-yellow-500/20 rounded-xl flex items-center justify-center text-xs text-yellow-400 font-bold border border-yellow-500/20" title="Sedang">S</div>
+                        <div class="h-10 bg-emerald-500/10 rounded-xl flex items-center justify-center text-xs text-emerald-400 font-bold border border-emerald-500/20" title="Sangat Hemat">H</div>
+                        <div class="h-10 bg-emerald-500/10 rounded-xl flex items-center justify-center text-xs text-emerald-400 font-bold border border-emerald-500/20" title="Sangat Hemat">H</div>
+                        <div class="h-10 bg-emerald-500/10 rounded-xl flex items-center justify-center text-xs text-emerald-400 font-bold border border-emerald-500/20" title="Sangat Hemat">H</div>
+                        <div class="h-10 bg-emerald-500/10 rounded-xl flex items-center justify-center text-xs text-emerald-400 font-bold border border-emerald-500/20" title="Sangat Hemat">H</div>
+                        <div class="h-10 bg-emerald-500/10 rounded-xl flex items-center justify-center text-xs text-emerald-400 font-bold border border-emerald-500/20" title="Sangat Hemat">H</div>
                     </div>
 
                     <div class="flex items-center justify-between text-xs text-gray-500 mt-4 border-t border-gray-800 pt-4">
@@ -394,17 +392,17 @@
                 </div>
             </div>
 
-            <!-- SECTION 5: QUICK AI DIAGNOSTIC INSIGHTS ON HOME -->
+            <!-- SECTION 5: QUICK AI DIAGNOSTIC INSIGHTS -->
             <div class="bg-gradient-to-tr from-purple-900/40 to-darkCard p-6 rounded-3xl border border-purple-500/20 relative overflow-hidden">
                 <div class="absolute -right-12 -bottom-12 w-32 h-32 bg-purple-500/10 rounded-full blur-2xl pointer-events-none"></div>
                 <div class="flex items-center gap-3 mb-3">
                     <div class="bg-purple-500/25 p-2 rounded-xl text-purple-400">
                         <i class="fas fa-brain"></i>
                     </div>
-                    <h3 class="text-md font-extrabold text-white">Analisis Instan FinNice AI</h3>
+                    <h3 class="text-md font-extrabold text-white">Analisis Instan Financely AI</h3>
                 </div>
                 <p id="dashboard-ai-advice" class="text-sm text-gray-300 leading-relaxed">
-                    Sedang menganalisis pola pengeluaran 5 tahun terakhir Anda...
+                    Selamat datang! Catat transaksi pertama Anda dengan menekan tombol "+" di kanan bawah.
                 </p>
                 <button onclick="switchTab('ai-advisor')" class="mt-4 inline-flex items-center gap-2 text-xs font-bold text-purple-400 hover:text-purple-300 transition">
                     Buka Konsultan AI Selengkapnya <i class="fas fa-arrow-right"></i>
@@ -468,7 +466,6 @@
                 </div>
             </div>
 
-            <!-- Transaction Table Card -->
             <div class="bg-darkCard rounded-3xl border border-gray-800 overflow-hidden">
                 <div class="overflow-x-auto">
                     <table class="w-full text-left border-collapse">
@@ -482,12 +479,10 @@
                             </tr>
                         </thead>
                         <tbody id="transaction-table-body" class="divide-y divide-gray-800/50 text-xs">
-                            <!-- Injected dynamically via script -->
                         </tbody>
                     </table>
                 </div>
                 
-                <!-- Pagination / Counter Footer -->
                 <div class="p-4 bg-gray-950/20 border-t border-gray-800 flex items-center justify-between text-xs text-gray-500">
                     <span id="tx-showing-count">Menampilkan 0 dari 0 Transaksi</span>
                     <div class="flex items-center gap-1">
@@ -504,10 +499,7 @@
                 <h2 class="text-xl font-bold text-white">Kelola Anggaran Finansial</h2>
                 <p class="text-xs text-gray-400">Kontrol kedisiplinan keuangan Anda sebelum dompet menipis.</p>
             </div>
-
-            <!-- Progress Bulanan Anggaran -->
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="budget-cards-container">
-                <!-- Diisi dinamis via script -->
             </div>
         </div>
 
@@ -523,33 +515,30 @@
                 </button>
             </div>
 
-            <!-- Danger Paylater Alert -->
-            <div class="bg-red-500/10 border border-red-500/20 p-4 rounded-2xl flex items-center gap-3">
+            <div id="paylater-alert" class="hidden bg-red-500/10 border border-red-500/20 p-4 rounded-2xl flex items-center gap-3">
                 <i class="fas fa-exclamation-triangle text-red-500 text-xl"></i>
                 <div class="text-xs">
                     <p class="font-bold text-white">Deteksi Risiko PayLater & Pinjol</p>
-                    <p class="text-gray-400">Total limit yang terpakai di Spaylater & GoPayLater Anda sedang dipantau oleh AI. Rasio hutang konsumtif Anda saat ini di kategori <span class="text-red-400 font-bold">Sedang-Tinggi</span>.</p>
+                    <p class="text-gray-400">Total limit yang terpakai di Spaylater & GoPayLater Anda sedang dipantau oleh AI. Rasio hutang konsumtif Anda saat ini di kategori <span class="text-red-400 font-bold" id="paylater-risk-lbl">Aman</span>.</p>
                 </div>
             </div>
 
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                <!-- Daftar Hutang Kita -->
+                <!-- Daftar Hutang -->
                 <div class="bg-darkCard p-6 rounded-3xl border border-gray-800">
                     <h3 class="text-md font-bold text-white mb-4 flex items-center gap-2">
                         <i class="fas fa-level-down-alt text-red-400"></i> Hutang Kita & Tagihan PayLater
                     </h3>
                     <div class="space-y-3" id="debts-list-container">
-                        <!-- Injected dynamically -->
                     </div>
                 </div>
 
-                <!-- Daftar Piutang Orang Lain -->
+                <!-- Daftar Piutang -->
                 <div class="bg-darkCard p-6 rounded-3xl border border-gray-800">
                     <h3 class="text-md font-bold text-white mb-4 flex items-center gap-2">
                         <i class="fas fa-level-up-alt text-emerald-400"></i> Piutang Kita (Teman Pinjam Uang)
                     </h3>
                     <div class="space-y-3" id="receivables-list-container">
-                        <!-- Injected dynamically -->
                     </div>
                 </div>
             </div>
@@ -567,7 +556,6 @@
                 </button>
             </div>
 
-            <!-- Investment KPI Summary -->
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div class="bg-darkCard p-6 rounded-2xl border border-gray-800 flex items-center justify-between">
                     <div>
@@ -592,12 +580,10 @@
                 </div>
             </div>
 
-            <!-- Portfolio Allocation List -->
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
                 <div class="lg:col-span-2 bg-darkCard p-6 rounded-3xl border border-gray-800">
                     <h3 class="text-md font-bold text-white mb-4">Rincian Kepemilikan Aset</h3>
                     <div class="space-y-4" id="investments-list-container">
-                        <!-- Injected via JS -->
                     </div>
                 </div>
 
@@ -628,7 +614,7 @@
                 </button>
             </div>
 
-            <!-- EMERGENCY FUND EVALUATOR -->
+            <!-- Dana Darurat Cerdas -->
             <div class="bg-gradient-to-tr from-emerald-950/40 via-darkCard to-gray-900/40 p-6 rounded-3xl border border-emerald-500/20">
                 <div class="flex items-center justify-between mb-4">
                     <div class="flex items-center gap-3">
@@ -640,7 +626,7 @@
                             <p class="text-xs text-gray-400">AI menghitung kecukupan hidup Anda berdasarkan rata-rata pengeluaran bulanan.</p>
                         </div>
                     </div>
-                    <span id="emergency-status-badge" class="px-3 py-1 rounded-full text-xs font-bold bg-red-500/10 text-red-400 border border-red-500/20">Kritis (Baru 1 Bulan)</span>
+                    <span id="emergency-status-badge" class="px-3 py-1 rounded-full text-xs font-bold bg-gray-500/10 text-gray-400 border border-gray-500/20">Mulai Mengumpulkan</span>
                 </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6 py-4">
@@ -669,9 +655,8 @@
                 </div>
             </div>
 
-            <!-- CUSTOM TARGETS LIST -->
+            <!-- Custom Goals Grid -->
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="goals-list-container">
-                <!-- Injected dynamically -->
             </div>
         </div>
 
@@ -682,18 +667,17 @@
                     <h2 class="text-xl font-bold text-white">Langganan Digital & Tagihan Rutin</h2>
                     <p class="text-xs text-gray-400">Deteksi "bocor halus" bulanan dari layanan digital yang jarang Anda gunakan.</p>
                 </div>
-                <button onclick="triggerAddSubscriptionSim()" class="bg-blue-600 hover:bg-blue-500 text-white px-4 py-2 rounded-xl text-xs font-bold transition">
+                <button onclick="openQuickSubModal()" class="bg-blue-600 hover:bg-blue-500 text-white px-4 py-2 rounded-xl text-xs font-bold transition">
                     <i class="fas fa-plus"></i> Catat Langganan Baru
                 </button>
             </div>
 
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                <!-- Subscription Cards Container -->
+                <!-- Lists -->
                 <div class="lg:col-span-2 space-y-4" id="subscriptions-list-container">
-                    <!-- Injected dynamically -->
                 </div>
 
-                <!-- Summary & Total cost -->
+                <!-- Summary -->
                 <div class="bg-darkCard p-6 rounded-3xl border border-gray-800 flex flex-col justify-between h-fit">
                     <div>
                         <h3 class="text-md font-bold text-white mb-1">Total Beban Langganan</h3>
@@ -706,7 +690,7 @@
                     </div>
                     <div class="text-xs text-gray-400 space-y-2 mt-4">
                         <p class="font-bold text-white">Saran AI:</p>
-                        <p>Anda memiliki lebih dari 4 langganan aktif. Menghapus salah satu bisa menambah tabungan darurat sebesar Rp 1.500.000+ dalam setahun.</p>
+                        <p id="sub-ai-advice">Catat tagihan digital Anda untuk mendapatkan estimasi hemat harian cerdas.</p>
                     </div>
                 </div>
             </div>
@@ -720,7 +704,7 @@
             </div>
 
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                <!-- Conversation and Diagnosis Panel -->
+                <!-- Conversation log -->
                 <div class="lg:col-span-2 bg-darkCard p-6 rounded-3xl border border-gray-800 flex flex-col justify-between h-[520px]">
                     <div class="flex items-center gap-3 border-b border-gray-800 pb-4 shrink-0">
                         <div class="bg-purple-500/20 p-2 rounded-xl text-purple-400 animate-pulse">
@@ -732,39 +716,35 @@
                         </div>
                     </div>
 
-                    <!-- Chat Log Display -->
+                    <!-- Log -->
                     <div id="ai-chat-log" class="flex-1 overflow-y-auto py-4 space-y-4 pr-2">
-                        <!-- Bot Message -->
                         <div class="flex items-start gap-3">
                             <div class="w-8 h-8 rounded-full bg-purple-600 text-white flex items-center justify-center font-bold shrink-0 text-sm">AI</div>
                             <div class="bg-purple-500/10 border border-purple-500/10 p-3 rounded-2xl rounded-tl-none max-w-[85%] text-xs text-gray-300 leading-relaxed">
-                                Halo Rako Putra Magazen! Saya adalah asisten AI Anda. Saya telah membaca seluruh mutasi saldo dan tren keuangan Anda dari tahun 2021 hingga 2026. 
+                                Halo! Saya adalah asisten AI Anda. Saya siap melacak mutasi saldo dan mengoptimasi keuangan Anda secara kritis.
                                 <br><br>
-                                Ada masalah finansial yang ingin Anda tanyakan atau ingin saya buatkan draf anggaran otomatis untuk bulan depan?
+                                Ada masalah finansial yang ingin Anda tanyakan atau ingin saya buatkan draf rencana anggaran otomatis?
                             </div>
                         </div>
                     </div>
 
-                    <!-- Chat Input -->
+                    <!-- Input message -->
                     <div class="border-t border-gray-800 pt-4 flex gap-2 shrink-0">
                         <input type="text" id="ai-chat-input" placeholder="Tanyakan saran hemat, krisis cicilan, atau simulasi pensiun..." class="flex-1 bg-darkBg border border-gray-700 rounded-xl px-4 py-2 text-xs text-white outline-none focus:border-purple-500">
                         <button onclick="sendChatMessage()" class="bg-purple-600 hover:bg-purple-500 text-white p-2 px-4 rounded-xl text-xs font-bold transition">Kirim</button>
                     </div>
                 </div>
 
-                <!-- Diagnostic Health Report -->
+                <!-- Diagnosis AI Report -->
                 <div class="bg-darkCard p-6 rounded-3xl border border-gray-800 flex flex-col justify-between h-[520px] overflow-y-auto">
                     <div>
                         <h3 class="text-md font-bold text-white mb-2 flex items-center gap-2">
                             <i class="fas fa-microscope text-purple-400"></i> Laporan Diagnostik AI
                         </h3>
                         <p class="text-xs text-gray-500 mb-4">Pemeriksaan mendalam atas kebocoran keuangan Anda.</p>
-
                         <div class="space-y-4" id="ai-diagnostics-container">
-                            <!-- Injected dynamically -->
                         </div>
                     </div>
-                    
                     <button onclick="runDiagnosticSimulation()" class="w-full mt-4 bg-purple-600/15 border border-purple-500/30 text-purple-400 hover:bg-purple-600/30 py-2.5 rounded-xl text-xs font-bold transition flex items-center justify-center gap-2">
                         <i class="fas fa-sync-alt"></i> Regenerasi Diagnosis
                     </button>
@@ -774,7 +754,7 @@
 
     </main>
 
-    <!-- MOBILE BOTTOM NAVIGATION BAR -->
+    <!-- MOBILE NAVIGATION -->
     <nav class="lg:hidden fixed bottom-0 left-0 w-full bg-darkCard border-t border-gray-800 px-2 py-2 flex justify-around items-center z-40 shadow-xl">
         <button onclick="switchTab('dashboard')" id="btn-mob-dashboard" class="flex flex-col items-center gap-1 text-[10px] font-bold text-gray-500 transition active-tab-mobile">
             <i class="fas fa-chart-pie text-lg"></i> Dash
@@ -796,13 +776,50 @@
         </button>
     </nav>
 
-    <!-- FLOATING QUICK ADD ACTION BUTTON (DESKTOP) -->
+    <!-- FLOATING QUICK ADD BUTTON -->
     <button onclick="openQuickAddModal()" class="hidden lg:flex fixed bottom-8 right-8 bg-blue-600 hover:bg-blue-500 text-white rounded-full w-14 h-14 items-center justify-center shadow-lg shadow-blue-500/20 hover:scale-105 transform transition z-40">
         <i class="fas fa-plus text-xl"></i>
     </button>
 
     <!-- ==================== MODALS ==================== -->
     
+    <!-- MODAL: ONBOARDING / FIRST LOGIN (FITUR SEKALI LOGIN AUTOMATIC) -->
+    <div id="modal-first-login" class="hidden fixed inset-0 bg-darkBg/95 backdrop-blur-md z-[100] flex items-center justify-center p-4">
+        <div class="bg-darkCard w-full max-w-md rounded-3xl border border-blue-500/30 p-8 shadow-2xl relative overflow-hidden space-y-6">
+            <div class="absolute -top-24 -left-24 w-48 h-48 bg-blue-600/10 rounded-full blur-3xl pointer-events-none"></div>
+            <div class="absolute -bottom-24 -right-24 w-48 h-48 bg-purple-600/10 rounded-full blur-3xl pointer-events-none"></div>
+            
+            <div class="text-center space-y-3 relative">
+                <div class="inline-flex bg-blue-600 p-4 rounded-2xl shadow-xl shadow-blue-500/20 mb-2">
+                    <i class="fas fa-wallet text-white text-3xl"></i>
+                </div>
+                <h2 class="text-2xl font-extrabold text-white tracking-tight">Selamat Datang di Financely AI</h2>
+                <p class="text-xs text-gray-400">Silakan masukkan nama Anda untuk memulai sistem pencatatan keuangan premium yang dipersonalisasi khusus untuk Anda.</p>
+            </div>
+            
+            <form onsubmit="saveFirstLogin(event)" class="space-y-4 relative">
+                <div>
+                    <label class="block text-xs font-bold text-gray-400 uppercase mb-2">Nama Lengkap Anda</label>
+                    <input type="text" id="login-name" placeholder="Masukkan nama Anda (misal: Randi Apriana)" class="w-full bg-darkBg border border-gray-700 rounded-xl px-4 py-3.5 text-sm text-white outline-none focus:border-blue-500 transition font-medium" required>
+                </div>
+                
+                <div>
+                    <label class="block text-xs font-bold text-gray-400 uppercase mb-2">Level Finansial Awal</label>
+                    <select id="login-level" class="w-full bg-darkBg border border-gray-700 rounded-xl px-4 py-3.5 text-sm text-white outline-none focus:border-blue-500 transition">
+                        <option value="Bronze">Bronze (Pemula Menabung)</option>
+                        <option value="Silver">Silver (Menengah & Investasi)</option>
+                        <option value="Gold">Gold (Mandiri Finansial)</option>
+                        <option value="Platinum">Platinum (Wealth Accumulator)</option>
+                    </select>
+                </div>
+
+                <button type="submit" class="w-full bg-blue-600 hover:bg-blue-500 text-white font-bold py-4 rounded-xl text-sm transition shadow-lg shadow-blue-500/20 flex items-center justify-center gap-2">
+                    Masuk ke Aplikasi <i class="fas fa-arrow-right text-xs"></i>
+                </button>
+            </form>
+        </div>
+    </div>
+
     <!-- MODAL: ADD TRANSACTION -->
     <div id="modal-quick-add" class="hidden fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
         <div class="bg-darkCard w-full max-w-lg rounded-3xl border border-gray-800 shadow-2xl overflow-hidden animate-in fade-in zoom-in-95 duration-200">
@@ -877,7 +894,7 @@
         </div>
     </div>
 
-    <!-- MODAL: REAL OCR RECEIPT SCANNER WITH REAL AI INTEGRATION -->
+    <!-- MODAL: REAL OCR RECEIPT SCANNER -->
     <div id="modal-ocr-scanner" class="hidden fixed inset-0 bg-black/80 backdrop-blur-sm z-[60] flex items-center justify-center p-4">
         <div class="bg-darkCard w-full max-w-md rounded-3xl border border-gray-800 shadow-2xl overflow-hidden animate-in fade-in zoom-in-95 duration-200">
             <div class="p-6 border-b border-gray-800 flex items-center justify-between">
@@ -888,20 +905,17 @@
             </div>
             
             <div class="p-6 space-y-4">
-                <p class="text-xs text-gray-400">Foto struk fisik Anda atau pilih berkas dari galeri. Kecerdasan Buatan (AI) Gemini akan mengekstrak detail teks struk belanja secara otomatis dan akurat.</p>
+                <p class="text-xs text-gray-400">Foto struk fisik Anda atau pilih berkas dari galeri. Kecerdasan Buatan (AI) Gemini akan mengekstrak detail teks struk belanja secara otomatis.</p>
                 
-                <!-- Image Box with premium scanning laser overlay -->
                 <div class="relative w-full h-64 bg-darkBg rounded-2xl border border-gray-850 flex flex-col items-center justify-center overflow-hidden" id="ocr-preview-box">
                     <div id="ocr-placeholder-content" class="flex flex-col items-center justify-center text-center p-4">
                         <i class="fas fa-receipt text-5xl text-gray-700 mb-2 animate-bounce"></i>
                         <p class="text-xs text-gray-500">Gunakan Kamera / Unggah Gambar Struk</p>
                     </div>
                     <img id="ocr-receipt-img" class="hidden absolute inset-0 w-full h-full object-contain bg-black/40">
-                    <!-- Laser Line Element -->
                     <div id="ocr-laser" class="hidden absolute left-0 right-0 h-1 bg-gradient-to-r from-transparent via-purple-500 to-transparent shadow-[0_0_8px_#a855f7] z-10 scan-laser"></div>
                 </div>
 
-                <!-- Live Status & Percentage Bar -->
                 <div id="ocr-scanning-status" class="hidden space-y-2 bg-purple-950/20 p-3 rounded-xl border border-purple-500/10">
                     <div class="flex items-center justify-between text-xs font-semibold">
                         <span id="ocr-status-text" class="text-purple-400 flex items-center gap-1">
@@ -914,7 +928,6 @@
                     </div>
                 </div>
 
-                <!-- Actions Grid -->
                 <div class="grid grid-cols-2 gap-3">
                     <label class="bg-gray-800 hover:bg-gray-750 text-white p-3 rounded-xl text-xs font-bold text-center cursor-pointer flex items-center justify-center gap-2 transition border border-gray-700">
                         <i class="fas fa-camera text-blue-400"></i> Ambil Foto / File
@@ -942,7 +955,6 @@
                 <div>
                     <label class="block text-xs font-bold text-gray-400 uppercase mb-1">Pilih Produk Investasi</label>
                     <select id="topup-asset" class="w-full bg-darkBg border border-gray-700 rounded-xl px-3 py-2.5 text-xs text-white outline-none focus:border-emerald-500" required>
-                        <!-- Injected dynamically -->
                     </select>
                 </div>
 
@@ -950,7 +962,6 @@
                     <div>
                         <label class="block text-xs font-bold text-gray-400 uppercase mb-1">Sumber Dana (Akun)</label>
                         <select id="topup-wallet" class="w-full bg-darkBg border border-gray-700 rounded-xl px-3 py-2.5 text-xs text-white outline-none focus:border-emerald-500" required>
-                            <!-- Injected dynamically -->
                         </select>
                     </div>
                     <div>
@@ -1021,6 +1032,105 @@
         </div>
     </div>
 
+    <!-- MODAL: ADD GOAL -->
+    <div id="modal-quick-goal" class="hidden fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+        <div class="bg-darkCard w-full max-w-md rounded-3xl border border-gray-800 shadow-2xl overflow-hidden animate-in fade-in zoom-in-95 duration-200">
+            <div class="p-6 border-b border-gray-800 flex items-center justify-between bg-gray-950/20">
+                <h3 class="text-md font-bold text-white flex items-center gap-2">
+                    <i class="fas fa-piggy-bank text-blue-500"></i> Buat Target Impian Baru
+                </h3>
+                <button onclick="closeQuickGoalModal()" class="text-gray-500 hover:text-white text-lg"><i class="fas fa-times"></i></button>
+            </div>
+
+            <form onsubmit="submitQuickGoal(event)" class="p-6 space-y-4">
+                <div>
+                    <label class="block text-xs font-bold text-gray-400 uppercase mb-1">Nama Impian</label>
+                    <input type="text" id="goal-form-name" placeholder="Contoh: DP Rumah Mandiri, Liburan ke Jepang" class="w-full bg-darkBg border border-gray-700 rounded-xl px-3 py-2.5 text-xs text-white outline-none focus:border-blue-500" required>
+                </div>
+
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-bold text-gray-400 uppercase mb-1">Target Nominal (Rp)</label>
+                        <input type="number" id="goal-form-target" placeholder="Contoh: 15000000" class="w-full bg-darkBg border border-gray-700 rounded-xl px-3 py-2.5 text-xs text-white outline-none focus:border-blue-500 font-bold" required>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-gray-400 uppercase mb-1">Tabungan Awal (Rp)</label>
+                        <input type="number" id="goal-form-saved" placeholder="0" class="w-full bg-darkBg border border-gray-700 rounded-xl px-3 py-2.5 text-xs text-white outline-none focus:border-blue-500" required>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-bold text-gray-400 uppercase mb-1">Tanggal Target</label>
+                        <input type="date" id="goal-form-deadline" class="w-full bg-darkBg border border-gray-700 rounded-xl px-3 py-2.5 text-xs text-white outline-none focus:border-blue-500" required>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-gray-400 uppercase mb-1">Representasi Ikon</label>
+                        <select id="goal-form-icon" class="w-full bg-darkBg border border-gray-700 rounded-xl px-3 py-2.5 text-xs text-white outline-none focus:border-blue-500">
+                            <option value="fa-home">Rumah (Home)</option>
+                            <option value="fa-car">Mobil (Car)</option>
+                            <option value="fa-motorcycle">Motor (Motorcycle)</option>
+                            <option value="fa-plane">Liburan (Plane)</option>
+                            <option value="fa-graduation-cap">Pendidikan (Graduation)</option>
+                            <option value="fa-piggy-bank">Tabungan Umum</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="pt-4 border-t border-gray-800 flex justify-end gap-2">
+                    <button type="button" onclick="closeQuickGoalModal()" class="px-4 py-2 rounded-xl text-xs font-semibold bg-gray-850 hover:bg-gray-800 text-gray-400 transition">Batal</button>
+                    <button type="submit" class="px-5 py-2 rounded-xl text-xs font-bold bg-blue-600 hover:bg-blue-500 text-white transition shadow-lg shadow-blue-500/10">Buat Target</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL: ADD SUBSCRIPTION -->
+    <div id="modal-quick-sub" class="hidden fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+        <div class="bg-darkCard w-full max-w-md rounded-3xl border border-gray-800 shadow-2xl overflow-hidden animate-in fade-in zoom-in-95 duration-200">
+            <div class="p-6 border-b border-gray-800 flex items-center justify-between bg-gray-950/20">
+                <h3 class="text-md font-bold text-white flex items-center gap-2">
+                    <i class="fas fa-calendar-alt text-blue-500"></i> Tambah Tagihan Rutin Baru
+                </h3>
+                <button onclick="closeQuickSubModal()" class="text-gray-500 hover:text-white text-lg"><i class="fas fa-times"></i></button>
+            </div>
+
+            <form onsubmit="submitQuickSub(event)" class="p-6 space-y-4">
+                <div>
+                    <label class="block text-xs font-bold text-gray-400 uppercase mb-1">Nama Layanan</label>
+                    <input type="text" id="sub-form-name" placeholder="Contoh: Spotify Premium, Adobe Creative Cloud" class="w-full bg-darkBg border border-gray-700 rounded-xl px-3 py-2.5 text-xs text-white outline-none focus:border-blue-500" required>
+                </div>
+
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-bold text-gray-400 uppercase mb-1">Biaya Bulanan (Rp)</label>
+                        <input type="number" id="sub-form-cost" placeholder="Contoh: 50000" class="w-full bg-darkBg border border-gray-700 rounded-xl px-3 py-2.5 text-xs text-white outline-none focus:border-blue-500 font-bold" required>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-gray-400 uppercase mb-1">Kategori Layanan</label>
+                        <select id="sub-form-service" class="w-full bg-darkBg border border-gray-700 rounded-xl px-3 py-2.5 text-xs text-white outline-none focus:border-blue-500">
+                            <option value="Hiburan">Hiburan & Media</option>
+                            <option value="AI & Produktivitas">AI & Produktivitas</option>
+                            <option value="Cloud & System">Cloud & System</option>
+                            <option value="Edukasi">Edukasi / Kursus</option>
+                            <option value="Lain-lain">Lain-lain</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-bold text-gray-400 uppercase mb-1">Tanggal Tagihan Terdekat</label>
+                    <input type="date" id="sub-form-billing" class="w-full bg-darkBg border border-gray-700 rounded-xl px-3 py-2.5 text-xs text-white outline-none focus:border-blue-500" required>
+                </div>
+
+                <div class="pt-4 border-t border-gray-800 flex justify-end gap-2">
+                    <button type="button" onclick="closeQuickSubModal()" class="px-4 py-2 rounded-xl text-xs font-semibold bg-gray-850 hover:bg-gray-800 text-gray-400 transition">Batal</button>
+                    <button type="submit" class="px-5 py-2 rounded-xl text-xs font-bold bg-blue-600 hover:bg-blue-500 text-white transition shadow-lg shadow-blue-500/10">Simpan Tagihan</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
     <!-- MODAL: CUSTOM CONFIRM DIALOG -->
     <div id="custom-confirm-modal" class="hidden fixed inset-0 bg-black/60 backdrop-blur-sm z-[90] flex items-center justify-center p-4 animate-in fade-in duration-200">
         <div class="bg-darkCard w-full max-w-sm rounded-3xl border border-gray-800 p-6 shadow-2xl space-y-4">
@@ -1043,50 +1153,36 @@
 
     <!-- ==================== CORE JAVASCRIPT ==================== -->
     <script>
-        // Setup State & Lifetime Seed Data Generator (2021 - 2026)
+        // Pristine Production State
         const state = {
+            profile: {
+                name: 'Pengguna Baru', 
+                level: 'Bronze'
+            },
             transactions: [],
             accounts: {
-                BCA: { name: 'Bank BCA', balance: 45000000, type: 'rek' },
-                Cash: { name: 'Cash / Dompet Fisik', balance: 1200000, type: 'cash' },
-                GoPay: { name: 'GoPay', balance: 3400000, type: 'wallet' },
-                OVO: { name: 'OVO / ShopeePay', balance: 800000, type: 'wallet' }
+                BCA: { name: 'Bank BCA', balance: 0, type: 'rek' },
+                Cash: { name: 'Cash / Dompet Fisik', balance: 0, type: 'cash' },
+                GoPay: { name: 'GoPay', balance: 0, type: 'wallet' },
+                OVO: { name: 'OVO / ShopeePay', balance: 0, type: 'wallet' }
             },
             budgets: [
-                { category: 'Makan & Minum', limit: 2500000, spent: 0 },
-                { category: 'ShopeeFood/GoFood', limit: 1500000, spent: 0 },
-                { category: 'Belanja Impulsif', limit: 2000000, spent: 0 },
-                { category: 'BBM / Transportasi', limit: 1000000, spent: 0 },
-                { category: 'Langganan', limit: 500000, spent: 0 }
+                { category: 'Makan & Minum', limit: 2000000, spent: 0 },
+                { category: 'ShopeeFood/GoFood', limit: 1000000, spent: 0 },
+                { category: 'Belanja Impulsif', limit: 1000000, spent: 0 },
+                { category: 'BBM / Transportasi', limit: 500000, spent: 0 },
+                { category: 'Langganan', limit: 300000, spent: 0 }
             ],
-            debts: [
-                { id: 'd1', name: 'SPayLater', amount: 3500000, dueDate: '2026-08-05', type: 'paylater', desc: 'Beli Gadget Baru' },
-                { id: 'd2', name: 'GoPayLater', amount: 1200000, dueDate: '2026-08-01', type: 'paylater', desc: 'Makan online malam' },
-                { id: 'd3', name: 'Kredivo', amount: 4500000, dueDate: '2026-08-15', type: 'paylater', desc: 'Cicilan Laptop' }
-            ],
-            receivables: [
-                { id: 'r1', name: 'Riko (Teman Kerja)', amount: 1500000, dueDate: '2026-07-25', status: 'Unpaid', desc: 'Pinjam bayar kosan' },
-                { id: 'r2', name: 'Sari (Sepupu)', amount: 750000, dueDate: '2026-08-10', status: 'Unpaid', desc: 'Uang bensin baks' }
-            ],
+            debts: [], 
+            receivables: [], 
             investments: [
-                { name: 'Saham BBCA', class: 'Saham', initialVal: 15000000, currentVal: 19800000, roi: 32, yield: 2.8 },
-                { name: 'Saham TLKM', class: 'Saham', initialVal: 10000000, currentVal: 9500000, roi: -5, yield: 3.5 },
-                { name: 'Reksa Dana Sucorinvest Money Market', class: 'Reksa Dana', initialVal: 20000000, currentVal: 22400000, roi: 12, yield: 0 },
-                { name: 'Crypto Bitcoin (BTC)', class: 'Crypto', initialVal: 5000000, currentVal: 8700000, roi: 74, yield: 0 },
-                { name: 'Emas Logam Mulia Antam', class: 'Emas', initialVal: 12000000, currentVal: 15200000, roi: 26, yield: 0 }
+                { name: 'Saham BBCA', class: 'Saham', initialVal: 0, currentVal: 0, roi: 0, yield: 2.8 },
+                { name: 'Saham TLKM', class: 'Saham', initialVal: 0, currentVal: 0, roi: 0, yield: 3.5 },
+                { name: 'Reksa Dana Sucorinvest MM', class: 'Reksa Dana', initialVal: 0, currentVal: 0, roi: 0, yield: 5.4 },
+                { name: 'Emas Logam Mulia', class: 'Emas', initialVal: 0, currentVal: 0, roi: 0, yield: 0 }
             ],
-            goals: [
-                { id: 'g1', name: 'DP Rumah Impian', target: 150000000, saved: 45000000, deadline: '2028-12-31', icon: 'fa-home', color: 'blue' },
-                { id: 'g2', name: 'Motor Vespa Sprint', target: 55000000, saved: 15000000, deadline: '2027-06-30', icon: 'fa-motorcycle', color: 'emerald' },
-                { id: 'g3', name: 'Dana Pensiun (Masa Tua)', target: 1000000000, saved: 65000000, deadline: '2045-12-31', icon: 'fa-blind', color: 'purple' }
-            ],
-            subscriptions: [
-                { name: 'Netflix Premium (UHD)', cost: 186000, nextBilling: '2026-08-02', service: 'Hiburan' },
-                { name: 'Spotify Family Plan', cost: 86000, nextBilling: '2026-08-10', service: 'Hiburan' },
-                { name: 'ChatGPT Plus Premium', cost: 320000, nextBilling: '2026-08-20', service: 'AI & Produktivitas' },
-                { name: 'YouTube Premium', cost: 59000, nextBilling: '2026-08-25', service: 'Hiburan' },
-                { name: 'iCloud 200GB storage', cost: 45000, nextBilling: '2026-08-01', service: 'Cloud & System' }
-            ],
+            goals: [], 
+            subscriptions: [], 
             activeTab: 'dashboard',
             periodFilter: 'all', 
             customStartDate: '',
@@ -1096,7 +1192,62 @@
             filteredTransactions: []
         };
 
-        // Seed data for 5 years: Programmatic transactional log generator (2021 to 2026)
+        // Fungsi Pintar Menyuntikkan Profil & Menggenerasi Inisial Otomatis
+        function renderProfile() {
+            const nameEl = document.getElementById('user-name');
+            const levelEl = document.getElementById('user-level');
+            const initialsEl = document.getElementById('user-initials');
+            const initialsMobEl = document.getElementById('user-initials-mobile');
+            
+            if (nameEl) nameEl.innerText = state.profile.name;
+            if (levelEl) levelEl.innerText = `Financial Level: ${state.profile.level}`;
+            
+            // Mengambil inisial otomatis
+            const words = state.profile.name.trim().split(/\s+/);
+            let initials = '';
+            if (words.length > 0 && words[0]) initials += words[0][0].toUpperCase();
+            if (words.length > 1 && words[1]) initials += words[1][0].toUpperCase();
+            if (!initials) initials = 'PB';
+            
+            if (initialsEl) initialsEl.innerText = initials;
+            if (initialsMobEl) initialsMobEl.innerText = initials;
+        }
+
+        // Simpan Data Login Pertama Kali
+        function saveFirstLogin(e) {
+            e.preventDefault();
+            const nameInput = document.getElementById('login-name').value.trim();
+            const levelInput = document.getElementById('login-level').value;
+            
+            if (!nameInput) return;
+            
+            state.profile.name = nameInput;
+            state.profile.level = levelInput;
+            
+            // Simpan permanen ke localStorage
+            localStorage.setItem('financely_profile', JSON.stringify(state.profile));
+            renderProfile();
+            
+            document.getElementById('modal-first-login').classList.add('hidden');
+            showToast(`Selamat datang, ${nameInput}! Selamat mengelola keuangan Anda.`, "success");
+            
+            calculateAggregates();
+            runDiagnosticSimulation();
+        }
+
+        // Menu Ubah Nama secara manual kapan saja
+        function triggerEditProfile() {
+            const currentName = state.profile.name;
+            const newName = prompt("Masukkan Nama Baru Anda:", currentName);
+            if (newName && newName.trim()) {
+                state.profile.name = newName.trim();
+                localStorage.setItem('financely_profile', JSON.stringify(state.profile));
+                renderProfile();
+                showToast("Nama profil berhasil diperbarui!", "success");
+            }
+        }
+
+        // Generator Data Demo / Pengujian
         function generateLifetimeMockData() {
             const data = [];
             const currentDate = new Date('2026-07-15');
@@ -1106,12 +1257,8 @@
                 const year = d.getFullYear();
                 const month = d.getMonth() + 1;
                 const day = d.getDate();
-                const dayOfWeek = d.getDay();
-                const isWeekend = (dayOfWeek === 0 || dayOfWeek === 6);
-                
                 const dateStr = d.toISOString().split('T')[0];
                 
-                // 1. Monthly Main Salary
                 if (day === 1) {
                     const baseSalary = 10000000 + (year - 2021) * 1500000;
                     data.push({
@@ -1124,7 +1271,6 @@
                     });
                 }
                 
-                // 2. Freelance side income
                 if (day === 15 && month % 3 === 0) {
                     const freelanceIncome = 2500000 + (year - 2021) * 400000;
                     data.push({
@@ -1137,19 +1283,6 @@
                     });
                 }
 
-                // 3. THR
-                if (month === 4 && day === 10) {
-                    data.push({
-                        date: dateStr,
-                        desc: 'Tunjangan Hari Raya (THR)',
-                        category: 'Gaji',
-                        amount: 12000000,
-                        type: 'income',
-                        account: 'BCA'
-                    });
-                }
-
-                // 4. Daily Food expenses
                 if (day % 1 === 0) {
                     const isMakanOnline = Math.random() > 0.5;
                     const amount = isMakanOnline ? (45000 + Math.floor(Math.random() * 40000)) : (20000 + Math.floor(Math.random() * 15000));
@@ -1163,7 +1296,6 @@
                     });
                 }
 
-                // 5. BBM / Transportation (Every 4 days)
                 if (day % 4 === 0) {
                     data.push({
                         date: dateStr,
@@ -1172,56 +1304,6 @@
                         amount: 45000,
                         type: 'expense',
                         account: 'Cash'
-                    });
-                }
-
-                // 6. Impulsive Shopping
-                if (day === 25 || (isWeekend && Math.random() > 0.7)) {
-                    const randomGadget = Math.random() > 0.8;
-                    const amount = randomGadget ? (450000 + Math.floor(Math.random() * 800000)) : (80000 + Math.floor(Math.random() * 150000));
-                    data.push({
-                        date: dateStr,
-                        desc: randomGadget ? 'Beli Aksesoris Gadget Tokopedia' : 'Belanja Bulanan Pakaian di Shopee',
-                        category: 'Belanja Impulsif',
-                        amount: amount,
-                        type: 'expense',
-                        account: 'OVO'
-                    });
-                }
-
-                // 7. Monthly Netflix & Subscriptions
-                if (day === 5) {
-                    data.push({
-                        date: dateStr,
-                        desc: 'Auto-Debit Netflix & iCloud Subscriptions',
-                        category: 'Langganan',
-                        amount: 231000,
-                        type: 'expense',
-                        account: 'BCA'
-                    });
-                }
-
-                // 8. Monthly Sedekah
-                if (day === 2) {
-                    data.push({
-                        date: dateStr,
-                        desc: 'Zakat & Sedekah Bulanan Lazismu/Bakti',
-                        category: 'Zakat / Sedekah',
-                        amount: 250000,
-                        type: 'expense',
-                        account: 'BCA'
-                    });
-                }
-
-                // 9. Paylater monthly bill payment
-                if (day === 10 && Math.random() > 0.4) {
-                    data.push({
-                        date: dateStr,
-                        desc: 'Bayar Tagihan Spaylater',
-                        category: 'PayLater / Cicilan',
-                        amount: 850000,
-                        type: 'expense',
-                        account: 'BCA'
                     });
                 }
             }
@@ -1236,13 +1318,9 @@
             const toastMessage = document.getElementById('toast-message');
             
             toastMessage.innerText = message;
-            if (type === 'success') {
-                toastIcon.className = "fas fa-check-circle text-emerald-400 text-xl";
-            } else if (type === 'error') {
-                toastIcon.className = "fas fa-exclamation-circle text-red-400 text-xl";
-            } else if (type === 'info') {
-                toastIcon.className = "fas fa-info-circle text-blue-400 text-xl animate-pulse";
-            }
+            if (type === 'success') toastIcon.className = "fas fa-check-circle text-emerald-400 text-xl";
+            else if (type === 'error') toastIcon.className = "fas fa-exclamation-circle text-red-400 text-xl";
+            else if (type === 'info') toastIcon.className = "fas fa-info-circle text-blue-400 text-xl animate-pulse";
             
             toast.classList.remove('hidden', 'opacity-0', 'translate-y-10');
             toast.classList.add('flex', 'opacity-100', 'translate-y-0');
@@ -1298,17 +1376,11 @@
             const activeNavMobBtn = document.getElementById('btn-mob-' + tabName);
             if (activeNavMobBtn) activeNavMobBtn.className = "flex flex-col items-center gap-1 text-[10px] font-bold text-blue-500 transition active-tab-mobile";
 
-            if (tabName === 'transactions') {
-                renderTransactionsTable();
-            } else if (tabName === 'debts') {
-                renderDebtsAndReceivables();
-            } else if (tabName === 'investments') {
-                renderInvestmentsTab();
-            } else if (tabName === 'goals') {
-                renderGoalsTab();
-            } else if (tabName === 'subscriptions') {
-                renderSubscriptionsTab();
-            }
+            if (tabName === 'transactions') renderTransactionsTable();
+            else if (tabName === 'debts') renderDebtsAndReceivables();
+            else if (tabName === 'investments') renderInvestmentsTab();
+            else if (tabName === 'goals') renderGoalsTab();
+            else if (tabName === 'subscriptions') renderSubscriptionsTab();
         }
 
         // ==================== TIME PERIOD FILTERS ====================
@@ -1326,14 +1398,12 @@
             });
 
             document.getElementById('custom-date-container').classList.add('hidden');
-            
             calculateAggregates();
             updateCharts();
         }
 
         function toggleCustomDateRange() {
-            const container = document.getElementById('custom-date-container');
-            container.classList.toggle('hidden');
+            document.getElementById('custom-date-container').classList.toggle('hidden');
         }
 
         function applyCustomDateFilter() {
@@ -1357,11 +1427,9 @@
             if (state.periodFilter === 'all') {
                 state.filteredTransactions = [...state.transactions];
             } else if (state.periodFilter === 'year') {
-                const yearStart = '2026-01-01';
-                state.filteredTransactions = state.transactions.filter(tx => tx.date >= yearStart);
+                state.filteredTransactions = state.transactions.filter(tx => tx.date >= '2026-01-01');
             } else if (state.periodFilter === 'month') {
-                const monthStart = '2026-07-01';
-                state.filteredTransactions = state.transactions.filter(tx => monthStart <= tx.date);
+                state.filteredTransactions = state.transactions.filter(tx => tx.date >= '2026-07-01');
             } else if (state.periodFilter === 'custom') {
                 state.filteredTransactions = state.transactions.filter(tx => 
                     tx.date >= state.customStartDate && tx.date <= state.customEndDate
@@ -1370,7 +1438,6 @@
         }
 
         // ==================== RENDERING LOGICS ====================
-
         function renderBudgetCards(totalMonthlyExpense) {
             const container = document.getElementById('budget-cards-container');
             if (!container) return;
@@ -1384,16 +1451,9 @@
                 b.spent = spent;
 
                 const pct = Math.min(100, Math.round((spent / b.limit) * 100));
-                
-                let progressColor = 'bg-emerald-500';
-                let textColor = 'text-emerald-400';
-                if (pct > 90) {
-                    progressColor = 'bg-red-500';
-                    textColor = 'text-red-400';
-                } else if (pct > 70) {
-                    progressColor = 'bg-yellow-500';
-                    textColor = 'text-yellow-400';
-                }
+                let progressColor = 'bg-emerald-500', textColor = 'text-emerald-400';
+                if (pct > 90) { progressColor = 'bg-red-500'; textColor = 'text-red-400'; }
+                else if (pct > 70) { progressColor = 'bg-yellow-500'; textColor = 'text-yellow-400'; }
 
                 container.innerHTML += `
                     <div class="bg-darkCard p-6 rounded-3xl border border-gray-800 shadow-xl">
@@ -1423,24 +1483,14 @@
 
             let records = [...state.filteredTransactions];
 
-            if (searchVal) {
-                records = records.filter(tx => tx.desc.toLowerCase().includes(searchVal));
-            }
-            if (catVal !== 'all') {
-                records = records.filter(tx => tx.category === catVal);
-            }
-            if (typeVal !== 'all') {
-                records = records.filter(tx => tx.type === typeVal);
-            }
-            if (sortVal === 'newest') {
-                records.sort((a, b) => b.date.localeCompare(a.date));
-            } else if (sortVal === 'oldest') {
-                records.sort((a, b) => a.date.localeCompare(b.date));
-            } else if (sortVal === 'highest') {
-                records.sort((a, b) => b.amount - a.amount);
-            } else if (sortVal === 'lowest') {
-                records.sort((a, b) => a.amount - b.amount);
-            }
+            if (searchVal) records = records.filter(tx => tx.desc.toLowerCase().includes(searchVal));
+            if (catVal !== 'all') records = records.filter(tx => tx.category === catVal);
+            if (typeVal !== 'all') records = records.filter(tx => tx.type === typeVal);
+            
+            if (sortVal === 'newest') records.sort((a, b) => b.date.localeCompare(a.date));
+            else if (sortVal === 'oldest') records.sort((a, b) => a.date.localeCompare(b.date));
+            else if (sortVal === 'highest') records.sort((a, b) => b.amount - a.amount);
+            else if (sortVal === 'lowest') records.sort((a, b) => a.amount - b.amount);
 
             const totalCount = records.length;
             document.getElementById('tx-showing-count').innerText = `Menampilkan ${Math.min(state.txPage * state.txPerPage + 1, totalCount)} s/d ${Math.min((state.txPage + 1) * state.txPerPage, totalCount)} dari ${totalCount} Transaksi`;
@@ -1448,7 +1498,16 @@
             const paginated = records.slice(state.txPage * state.txPerPage, (state.txPage + 1) * state.txPerPage);
 
             if (paginated.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="5" class="p-8 text-center text-gray-500 font-semibold">Tidak ada transaksi ditemukan.</td></tr>`;
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="5" class="p-12 text-center text-gray-500 bg-darkCard/25">
+                            <div class="flex flex-col items-center justify-center gap-2">
+                                <i class="fas fa-exchange-alt text-4xl text-gray-800 mb-2"></i>
+                                <span class="font-bold text-gray-400 text-sm">Belum Ada Transaksi</span>
+                                <span class="text-[11px] text-gray-500 max-w-xs">Silakan catat pengeluaran atau pendapatan baru Anda menggunakan tombol "+" di kanan bawah.</span>
+                            </div>
+                        </td>
+                    </tr>`;
                 return;
             }
 
@@ -1476,33 +1535,15 @@
             });
         }
 
-        function applyTransactionFilters() {
-            state.txPage = 0;
-            renderTransactionsTable();
-        }
-
-        function prevTxPage() {
-            if (state.txPage > 0) {
-                state.txPage--;
-                renderTransactionsTable();
-            }
-        }
-
-        document.getElementById('form-date').value = '2026-07-15';
-
-        function nextTxPage() {
-            const recordsLength = state.filteredTransactions.length;
-            if ((state.txPage + 1) * state.txPerPage < recordsLength) {
-                state.txPage++;
-                renderTransactionsTable();
-            }
-        }
+        function applyTransactionFilters() { state.txPage = 0; renderTransactionsTable(); }
+        function prevTxPage() { if (state.txPage > 0) { state.txPage--; renderTransactionsTable(); } }
+        function nextTxPage() { if ((state.txPage + 1) * state.txPerPage < state.filteredTransactions.length) { state.txPage++; renderTransactionsTable(); } }
 
         function deleteTransaction(date, desc, amount) {
             showConfirm(`Apakah Anda yakin ingin menghapus transaksi "${desc}"?`, () => {
                 state.transactions = state.transactions.filter(tx => !(tx.date === date && tx.desc === desc && tx.amount === amount));
                 calculateAggregates();
-                renderTransactionsTable();
+                if (state.activeTab === 'transactions') renderTransactionsTable();
                 updateCharts();
                 runDiagnosticSimulation();
                 showToast(`Transaksi "${desc}" berhasil dihapus`, 'success');
@@ -1512,46 +1553,64 @@
         function renderDebtsAndReceivables() {
             const debtsContainer = document.getElementById('debts-list-container');
             const recsContainer = document.getElementById('receivables-list-container');
-            
             if (!debtsContainer || !recsContainer) return;
             
-            debtsContainer.innerHTML = '';
-            recsContainer.innerHTML = '';
+            debtsContainer.innerHTML = ''; recsContainer.innerHTML = '';
 
-            state.debts.forEach(d => {
-                debtsContainer.innerHTML += `
-                    <div class="bg-darkBg/50 p-4 rounded-2xl border border-gray-850 flex items-center justify-between">
-                        <div>
-                            <div class="flex items-center gap-2">
-                                <h4 class="font-bold text-white text-sm">${d.name}</h4>
-                                <span class="bg-red-500/10 text-red-400 text-[9px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider">${d.type}</span>
+            if (state.debts.length === 0) {
+                debtsContainer.innerHTML = `
+                    <div class="p-8 text-center text-gray-600 border border-dashed border-gray-800 rounded-2xl">
+                        <i class="fas fa-handshake-slash text-2xl mb-2 text-gray-700"></i>
+                        <p class="text-xs font-bold text-gray-400">Hebat! Anda bebas dari hutang</p>
+                        <p class="text-[10px] text-gray-500 mt-1">Gunakan tombol "Catat Hutang/Piutang" di atas untuk menambahkan catatan.</p>
+                    </div>
+                `;
+            } else {
+                state.debts.forEach(d => {
+                    debtsContainer.innerHTML += `
+                        <div class="bg-darkBg/50 p-4 rounded-2xl border border-gray-850 flex items-center justify-between">
+                            <div>
+                                <div class="flex items-center gap-2">
+                                    <h4 class="font-bold text-white text-sm">${d.name}</h4>
+                                    <span class="bg-red-500/10 text-red-400 text-[9px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider">${d.type}</span>
+                                </div>
+                                <p class="text-xs text-gray-500 mt-1">${d.desc}</p>
+                                <p class="text-[10px] text-gray-400 font-semibold mt-1 flex items-center gap-1"><i class="far fa-calendar-alt text-red-400"></i> Jatuh Tempo: ${d.dueDate}</p>
                             </div>
-                            <p class="text-xs text-gray-500 mt-1">${d.desc}</p>
-                            <p class="text-[10px] text-gray-400 font-semibold mt-1 flex items-center gap-1"><i class="far fa-calendar-alt text-red-400"></i> Jatuh Tempo: ${d.dueDate}</p>
+                            <div class="text-right">
+                                <span class="block text-sm font-extrabold text-red-400">${formatRupiah(d.amount)}</span>
+                                <button onclick="payDebtSim('${d.id}')" class="mt-2 bg-red-500/15 text-red-400 hover:bg-red-500 text-white transition px-3 py-1 rounded-lg text-[10px] font-bold">Lunasi</button>
+                            </div>
                         </div>
-                        <div class="text-right">
-                            <span class="block text-sm font-extrabold text-red-400">${formatRupiah(d.amount)}</span>
-                            <button onclick="payDebtSim('${d.id}')" class="mt-2 bg-red-500/15 text-red-400 hover:bg-red-500 text-white transition px-3 py-1 rounded-lg text-[10px] font-bold">Lunasi</button>
-                        </div>
-                    </div>
-                `;
-            });
+                    `;
+                });
+            }
 
-            state.receivables.forEach(r => {
-                recsContainer.innerHTML += `
-                    <div class="bg-darkBg/50 p-4 rounded-2xl border border-gray-850 flex items-center justify-between">
-                        <div>
-                            <h4 class="font-bold text-white text-sm">${r.name}</h4>
-                            <p class="text-xs text-gray-500 mt-1">${r.desc}</p>
-                            <p class="text-[10px] text-gray-400 font-semibold mt-1 flex items-center gap-1"><i class="far fa-calendar-alt text-emerald-400"></i> Eks. Pembayaran: ${r.dueDate}</p>
-                        </div>
-                        <div class="text-right">
-                            <span class="block text-sm font-extrabold text-emerald-400">${formatRupiah(r.amount)}</span>
-                            <button onclick="claimReceivableSim('${r.id}')" class="mt-2 bg-emerald-500/15 text-emerald-400 hover:bg-emerald-500 text-white transition px-3 py-1 rounded-lg text-[10px] font-bold">Selesai</button>
-                        </div>
+            if (state.receivables.length === 0) {
+                recsContainer.innerHTML = `
+                    <div class="p-8 text-center text-gray-600 border border-dashed border-gray-800 rounded-2xl">
+                        <i class="fas fa-coins text-2xl mb-2 text-gray-700"></i>
+                        <p class="text-xs font-bold text-gray-400">Belum ada piutang aktif</p>
+                        <p class="text-[10px] text-gray-500 mt-1">Uang yang Anda pinjamkan kepada orang lain akan terekam di sini.</p>
                     </div>
                 `;
-            });
+            } else {
+                state.receivables.forEach(r => {
+                    recsContainer.innerHTML += `
+                        <div class="bg-darkBg/50 p-4 rounded-2xl border border-gray-850 flex items-center justify-between">
+                            <div>
+                                <h4 class="font-bold text-white text-sm">${r.name}</h4>
+                                <p class="text-xs text-gray-500 mt-1">${r.desc}</p>
+                                <p class="text-[10px] text-gray-400 font-semibold mt-1 flex items-center gap-1"><i class="far fa-calendar-alt text-emerald-400"></i> Eks. Pembayaran: ${r.dueDate}</p>
+                            </div>
+                            <div class="text-right">
+                                <span class="block text-sm font-extrabold text-emerald-400">${formatRupiah(r.amount)}</span>
+                                <button onclick="claimReceivableSim('${r.id}')" class="mt-2 bg-emerald-500/15 text-emerald-400 hover:bg-emerald-500 text-white transition px-3 py-1 rounded-lg text-[10px] font-bold">Selesai</button>
+                            </div>
+                        </div>
+                    `;
+                });
+            }
         }
 
         function payDebtSim(id) {
@@ -1625,7 +1684,7 @@
             document.getElementById('inv-total-val').innerText = formatRupiah(totalPortfolioVal);
             document.getElementById('inv-total-roi').innerText = formatRupiah(totalProfit);
             document.getElementById('inv-total-div').innerText = formatRupiah(totalDividend);
-            const totalRoiPct = Math.round((totalProfit / (totalPortfolioVal - totalProfit)) * 100);
+            const totalRoiPct = totalPortfolioVal - totalProfit > 0 ? Math.round((totalProfit / (totalPortfolioVal - totalProfit)) * 100) : 0;
             document.getElementById('inv-roi-pct').innerText = `${totalRoiPct}% ROI`;
         }
 
@@ -1634,35 +1693,47 @@
             if (!container) return;
             container.innerHTML = '';
 
-            state.goals.forEach(g => {
-                const pct = Math.min(100, Math.round((g.saved / g.target) * 100));
-                
-                container.innerHTML += `
-                    <div class="bg-darkCard p-6 rounded-3xl border border-gray-800 shadow-xl flex flex-col justify-between">
-                        <div>
-                            <div class="flex items-center justify-between mb-4">
-                                <div class="bg-blue-600/10 text-blue-400 p-2.5 rounded-xl">
-                                    <i class="fas ${g.icon} text-lg"></i>
-                                </div>
-                                <span class="bg-blue-500/10 text-blue-400 text-[10px] font-bold px-2.5 py-1 rounded-full uppercase tracking-wider">Target Impian</span>
-                            </div>
-                            <h4 class="font-extrabold text-white text-md mb-1">${g.name}</h4>
-                            <p class="text-xs text-gray-500 mb-4">Target Capai: <span class="text-gray-400 font-semibold">${g.deadline}</span></p>
-                        </div>
-                        
-                        <div class="space-y-2 mt-4">
-                            <div class="flex justify-between text-xs font-bold">
-                                <span class="text-gray-400">Terkumpul: ${formatRupiah(g.saved)}</span>
-                                <span class="text-blue-400">${pct}%</span>
-                            </div>
-                            <div class="w-full bg-gray-800 h-2 rounded-full overflow-hidden">
-                                <div class="bg-blue-500 h-full rounded-full" style="width: ${pct}%"></div>
-                            </div>
-                            <p class="text-[10px] text-gray-500">Sisa kekurangan dana: <span class="text-red-400 font-bold">${formatRupiah(Math.max(0, g.target - g.saved))}</span></p>
-                        </div>
+            if (state.goals.length === 0) {
+                container.innerHTML = `
+                    <div class="col-span-full p-12 text-center text-gray-500 bg-darkCard rounded-3xl border border-gray-800">
+                        <i class="fas fa-piggy-bank text-4xl mb-3 text-blue-500/20 animate-bounce"></i>
+                        <h4 class="font-bold text-white text-sm">Tentukan Impian & Target Tabungan Anda</h4>
+                        <p class="text-xs text-gray-400 mt-1 max-w-md mx-auto">Membeli rumah, kendaraan, atau dana darurat? Buat target menabung Anda sekarang.</p>
+                        <button onclick="openQuickGoalModal()" class="mt-4 bg-blue-600 hover:bg-blue-500 text-white px-4 py-2 rounded-xl text-xs font-bold transition">
+                            Tambah Target Pertama
+                        </button>
                     </div>
                 `;
-            });
+            } else {
+                state.goals.forEach(g => {
+                    const pct = Math.min(100, Math.round((g.saved / g.target) * 100));
+                    container.innerHTML += `
+                        <div class="bg-darkCard p-6 rounded-3xl border border-gray-800 shadow-xl flex flex-col justify-between">
+                            <div>
+                                <div class="flex items-center justify-between mb-4">
+                                    <div class="bg-blue-600/10 text-blue-400 p-2.5 rounded-xl">
+                                        <i class="fas ${g.icon} text-lg"></i>
+                                    </div>
+                                    <span class="bg-blue-500/10 text-blue-400 text-[10px] font-bold px-2.5 py-1 rounded-full uppercase tracking-wider">Target Impian</span>
+                                </div>
+                                <h4 class="font-extrabold text-white text-md mb-1">${g.name}</h4>
+                                <p class="text-xs text-gray-500 mb-4">Target Capai: <span class="text-gray-400 font-semibold">${g.deadline}</span></p>
+                            </div>
+                            
+                            <div class="space-y-2 mt-4">
+                                <div class="flex justify-between text-xs font-bold">
+                                    <span class="text-gray-400">Terkumpul: ${formatRupiah(g.saved)}</span>
+                                    <span class="text-blue-400">${pct}%</span>
+                                </div>
+                                <div class="w-full bg-gray-800 h-2 rounded-full overflow-hidden">
+                                    <div class="bg-blue-500 h-full rounded-full" style="width: ${pct}%"></div>
+                                </div>
+                                <p class="text-[10px] text-gray-500">Sisa kekurangan dana: <span class="text-red-400 font-bold">${formatRupiah(Math.max(0, g.target - g.saved))}</span></p>
+                            </div>
+                        </div>
+                    `;
+                });
+            }
         }
 
         function renderSubscriptionsTab() {
@@ -1670,37 +1741,90 @@
             if (!container) return;
             container.innerHTML = '';
 
-            state.subscriptions.forEach((sub, i) => {
-                container.innerHTML += `
-                    <div class="bg-darkBg/60 p-4 rounded-2xl border border-gray-850 flex items-center justify-between">
-                        <div class="flex items-center gap-3">
-                            <div class="bg-blue-600/15 text-blue-400 p-2.5 rounded-xl">
-                                <i class="fas fa-play text-xs"></i>
-                            </div>
-                            <div>
-                                <h4 class="font-bold text-white text-sm">${sub.name}</h4>
-                                <p class="text-xs text-gray-500">${sub.service}</p>
-                            </div>
-                        </div>
-                        <div class="text-right">
-                            <span class="block text-sm font-extrabold text-red-400">${formatRupiah(sub.cost)}<span class="text-[10px] text-gray-500 font-normal">/Bulan</span></span>
-                            <span class="text-[10px] text-gray-400 font-semibold flex items-center gap-1 justify-end mt-1"><i class="far fa-clock text-red-400"></i> Billing: ${sub.nextBilling}</span>
-                        </div>
+            if (state.subscriptions.length === 0) {
+                container.innerHTML = `
+                    <div class="p-12 text-center text-gray-500 bg-darkBg/40 rounded-3xl border border-gray-850">
+                        <i class="fas fa-bell-slash text-3xl text-gray-700 mb-2"></i>
+                        <h4 class="font-bold text-gray-400 text-sm">Belum Ada Layanan Berlangganan</h4>
+                        <p class="text-xs text-gray-500 mt-1">Catat tagihan bulanan digital seperti Netflix, Spotify, iCloud, dll.</p>
                     </div>
                 `;
-            });
+            } else {
+                state.subscriptions.forEach((sub, i) => {
+                    container.innerHTML += `
+                        <div class="bg-darkBg/60 p-4 rounded-2xl border border-gray-850 flex items-center justify-between">
+                            <div class="flex items-center gap-3">
+                                <div class="bg-blue-600/15 text-blue-400 p-2.5 rounded-xl">
+                                    <i class="fas fa-play text-xs"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-white text-sm">${sub.name}</h4>
+                                    <p class="text-xs text-gray-500">${sub.service}</p>
+                                </div>
+                            </div>
+                            <div class="text-right">
+                                <span class="block text-sm font-extrabold text-red-400">${formatRupiah(sub.cost)}<span class="text-[10px] text-gray-500 font-normal">/Bulan</span></span>
+                                <span class="text-[10px] text-gray-400 font-semibold flex items-center gap-1 justify-end mt-1"><i class="far fa-clock text-red-400"></i> Billing: ${sub.nextBilling}</span>
+                            </div>
+                        </div>
+                    `;
+                });
+            }
         }
 
-        // ==================== SIMULATION UTILS ====================
+        // Modals Management
+        function openQuickGoalModal() {
+            document.getElementById('modal-quick-goal').classList.remove('hidden');
+            document.getElementById('goal-form-deadline').value = '2027-12-31';
+        }
+        function closeQuickGoalModal() { document.getElementById('modal-quick-goal').classList.add('hidden'); }
+
+        function submitQuickGoal(e) {
+            e.preventDefault();
+            const name = document.getElementById('goal-form-name').value;
+            const target = Number(document.getElementById('goal-form-target').value);
+            const saved = Number(document.getElementById('goal-form-saved').value);
+            const deadline = document.getElementById('goal-form-deadline').value;
+            const icon = document.getElementById('goal-form-icon').value;
+
+            if (target <= 0) { showToast('Target Nominal harus lebih besar dari Rp 0!', 'error'); return; }
+
+            state.goals.push({ id: 'g-' + Date.now(), name, target, saved, deadline, icon });
+            calculateAggregates();
+            if (state.activeTab === 'goals') renderGoalsTab();
+            closeQuickGoalModal();
+            e.target.reset();
+            showToast(`Target impian "${name}" berhasil dibuat!`, 'success');
+        }
+
+        function openQuickSubModal() {
+            document.getElementById('modal-quick-sub').classList.remove('hidden');
+            document.getElementById('sub-form-billing').value = '2026-08-01';
+        }
+        function closeQuickSubModal() { document.getElementById('modal-quick-sub').classList.add('hidden'); }
+
+        function submitQuickSub(e) {
+            e.preventDefault();
+            const name = document.getElementById('sub-form-name').value;
+            const cost = Number(document.getElementById('sub-form-cost').value);
+            const service = document.getElementById('sub-form-service').value;
+            const nextBilling = document.getElementById('sub-form-billing').value;
+
+            if (cost <= 0) { showToast('Biaya bulanan harus lebih besar dari Rp 0!', 'error'); return; }
+
+            state.subscriptions.push({ name, cost, nextBilling, service });
+            calculateAggregates();
+            if (state.activeTab === 'subscriptions') renderSubscriptionsTab();
+            closeQuickSubModal();
+            e.target.reset();
+            showToast(`Tagihan "${name}" berhasil didaftarkan!`, 'success');
+        }
 
         function openQuickDebtModal() {
             document.getElementById('modal-quick-debt').classList.remove('hidden');
             document.getElementById('debt-form-date').value = '2026-08-15';
         }
-
-        function closeQuickDebtModal() {
-            document.getElementById('modal-quick-debt').classList.add('hidden');
-        }
+        function closeQuickDebtModal() { document.getElementById('modal-quick-debt').classList.add('hidden'); }
 
         function submitQuickDebt(e) {
             e.preventDefault();
@@ -1710,45 +1834,25 @@
             const dueDate = document.getElementById('debt-form-date').value;
             const desc = document.getElementById('debt-form-desc').value;
 
-            if (amount <= 0) {
-                showToast('Nominal harus lebih besar dari Rp 0!', 'error');
-                return;
-            }
-
+            if (amount <= 0) { showToast('Nominal harus lebih besar dari Rp 0!', 'error'); return; }
             const uniqueId = 'id-' + Date.now();
 
             if (type === 'debt') {
-                state.debts.push({
-                    id: uniqueId,
-                    name: name,
-                    amount: amount,
-                    dueDate: dueDate,
-                    type: 'Manual Debt',
-                    desc: desc
-                });
+                state.debts.push({ id: uniqueId, name, amount, dueDate, type: 'Manual Debt', desc });
                 showToast(`Hutang baru kepada "${name}" berhasil dicatat!`, 'success');
             } else {
-                state.receivables.push({
-                    id: uniqueId,
-                    name: name,
-                    amount: amount,
-                    dueDate: dueDate,
-                    status: 'Unpaid',
-                    desc: desc
-                });
+                state.receivables.push({ id: uniqueId, name, amount, dueDate, status: 'Unpaid', desc });
                 showToast(`Piutang baru untuk "${name}" berhasil dicatat!`, 'success');
             }
 
             calculateAggregates();
-            if (state.activeTab === 'debts') {
-                renderDebtsAndReceivables();
-            }
+            if (state.activeTab === 'debts') renderDebtsAndReceivables();
             closeQuickDebtModal();
             e.target.reset();
         }
 
-        // ==================== REAL AI OCR SCANNING (GEMINI API INTEGRATION) ====================
-        const apiKey = ""; // Disuntikkan otomatis oleh lingkungan runtime Canvas
+        // ==================== REAL AI OCR SCANNING ====================
+        const apiKey = ""; 
 
         async function fetchWithRetry(url, options, retries = 5, delay = 1000) {
             try {
@@ -1771,60 +1875,45 @@
             document.getElementById('ocr-laser').classList.add('hidden');
             document.getElementById('ocr-progress-bar').style.width = '0%';
             document.getElementById('ocr-pct').innerText = '0%';
-            
             document.getElementById('modal-ocr-scanner').classList.remove('hidden');
         }
+        function closeOCRModal() { document.getElementById('modal-ocr-scanner').classList.add('hidden'); }
 
-        function closeOCRModal() {
-            document.getElementById('modal-ocr-scanner').classList.add('hidden');
-        }
-
-        // Memproses berkas struk riil dari HP/Kamera
         async function processReceiptOCR(input) {
             if (input.files && input.files[0]) {
                 const file = input.files[0];
                 const reader = new FileReader();
-                
                 reader.onload = async function(e) {
-                    // Tampilkan preview gambar
                     document.getElementById('ocr-placeholder-content').classList.add('hidden');
                     const imgElement = document.getElementById('ocr-receipt-img');
                     imgElement.src = e.target.result;
                     imgElement.classList.remove('hidden');
                     
-                    // Aktifkan laser scanning & status progress
                     document.getElementById('ocr-laser').classList.remove('hidden');
-                    const statusContainer = document.getElementById('ocr-scanning-status');
-                    statusContainer.classList.remove('hidden');
+                    document.getElementById('ocr-scanning-status').classList.remove('hidden');
                     
                     let progress = 10;
                     document.getElementById('ocr-progress-bar').style.width = progress + '%';
                     document.getElementById('ocr-pct').innerText = progress + '%';
-                    document.getElementById('ocr-status-text').innerHTML = `<i class="fas fa-brain fa-spin text-purple-400"></i> Mengonversi gambar & memanggil Gemini AI...`;
+                    document.getElementById('ocr-status-text').innerHTML = `<i class="fas fa-brain fa-spin text-purple-400"></i> Memulai AI...`;
 
                     try {
-                        // Jalankan progress bar secara halus ke 45%
                         const progInterval = setInterval(() => {
                             if (progress < 45) {
                                 progress += 5;
                                 document.getElementById('ocr-progress-bar').style.width = progress + '%';
                                 document.getElementById('ocr-pct').innerText = progress + '%';
-                            } else {
-                                clearInterval(progInterval);
-                            }
+                            } else { clearInterval(progInterval); }
                         }, 150);
 
-                        // Ambil raw Base64 data dari gambar
                         const base64Data = e.target.result.split(',')[1];
                         const mimeType = file.type || 'image/jpeg';
-                        
-                        // Menyiapkan Payload Gemini API dengan model terdukung
                         const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
                         
                         const promptText = `Analisis gambar struk belanja ini. Ekstrak data-data teks secara akurat:
-                        1. Nama toko atau deskripsi belanja utama (desc) - dalam Bahasa Indonesia yang bersih & ringkas (Maks. 3 kata). Contoh: "Belanja Indomaret", "Kopi Starbucks", "Soto Betawi".
-                        2. Total nominal akhir belanja dalam bentuk angka murni (amount) (contoh: 89000).
-                        3. Kategori pengeluaran terbaik (category). Harus dipilih dari salah satu kategori ini saja: 'Makan & Minum', 'ShopeeFood/GoFood', 'Belanja Impulsif', 'BBM / Transportasi', 'Langganan', 'Zakat / Sedekah'.
+                        1. Nama toko atau deskripsi belanja utama (desc) - dalam Bahasa Indonesia yang bersih & ringkas (Maks. 3 kata).
+                        2. Total nominal akhir belanja dalam bentuk angka murni (amount).
+                        3. Kategori pengeluaran terbaik (category). Harus dipilih dari salah satu kategori ini: 'Makan & Minum', 'ShopeeFood/GoFood', 'Belanja Impulsif', 'BBM / Transportasi', 'Langganan', 'Zakat / Sedekah'.
                         Kembalikan respon hanya berupa JSON dengan format:
                         { "desc": string, "amount": number, "category": string }`;
 
@@ -1849,14 +1938,6 @@
                             }
                         };
 
-                        // Panggil API dengan exponential backoff retry
-                        document.getElementById('ocr-status-text').innerHTML = `<i class="fas fa-magic fa-spin text-purple-400"></i> AI sedang menganalisis teks struk Anda...`;
-                        
-                        // Percepat progress ke 75% saat API berjalan
-                        progress = 75;
-                        document.getElementById('ocr-progress-bar').style.width = progress + '%';
-                        document.getElementById('ocr-pct').innerText = progress + '%';
-
                         const result = await fetchWithRetry(url, {
                             method: 'POST',
                             headers: { 'Content-Type': 'application/json' },
@@ -1864,30 +1945,19 @@
                         });
 
                         const textResponse = result.candidates?.[0]?.content?.parts?.[0]?.text;
-                        
                         if (textResponse) {
                             const parsed = JSON.parse(textResponse);
-                            
-                            // Ramp up progress ke 100%
                             document.getElementById('ocr-progress-bar').style.width = '100%';
                             document.getElementById('ocr-pct').innerText = '100%';
-                            
                             setTimeout(() => {
-                                // Pindahkan data hasil scan AI ke input Form Transaksi Utama
                                 document.getElementById('form-desc').value = parsed.desc || "Belanja Struk AI";
                                 document.getElementById('form-amount').value = parsed.amount || 0;
                                 document.getElementById('form-cat').value = parsed.category || "Makan & Minum";
-                                
                                 closeOCRModal();
-                                showToast(`AI Sukses membaca: "${parsed.desc}" sebesar ${formatRupiah(parsed.amount)}`, 'success');
+                                showToast(`AI Sukses membaca: "${parsed.desc}" (${formatRupiah(parsed.amount)})`, 'success');
                             }, 500);
-                        } else {
-                            throw new Error("Respons kosong dari model.");
-                        }
-
+                        } else { throw new Error("Respons kosong."); }
                     } catch (error) {
-                        console.error("AI OCR Failed, initiating smart local analyzer fallback.", error);
-                        // Jalankan sistem pengaman fallback jika API Key belum siap atau error
                         runSmartFallback(file.name);
                     }
                 }
@@ -1895,11 +1965,9 @@
             }
         }
 
-        // Jalur simulasi pintar jika koneksi bermasalah
         function runSmartFallback(fileName) {
             document.getElementById('ocr-status-text').innerHTML = `<i class="fas fa-shield-alt text-yellow-400"></i> Menggunakan Local AI Analyzer...`;
             let progress = 60;
-            
             const localInterval = setInterval(() => {
                 progress += 10;
                 document.getElementById('ocr-progress-bar').style.width = progress + '%';
@@ -1907,36 +1975,21 @@
                 
                 if (progress >= 100) {
                     clearInterval(localInterval);
-                    
-                    // Coba deteksi pola dari nama berkas untuk hasil dinamis yang cerdas
                     let predictedDesc = "Makan Siang Soto Betawi";
                     let predictedAmount = 55000;
                     let predictedCat = "Makan & Minum";
                     
                     const fn = fileName.toLowerCase();
-                    if (fn.includes('kopi') || fn.includes('starbucks') || fn.includes('boba') || fn.includes('kenangan')) {
-                        predictedDesc = "Kopi Susu Gula Aren";
-                        predictedAmount = 28000;
-                        predictedCat = "ShopeeFood/GoFood";
-                    } else if (fn.includes('shopee') || fn.includes('shopeefood') || fn.includes('gofood') || fn.includes('grab')) {
-                        predictedDesc = "Nasi Goreng Gila Gofood";
-                        predictedAmount = 45000;
-                        predictedCat = "ShopeeFood/GoFood";
-                    } else if (fn.includes('indo') || fn.includes('maret') || fn.includes('alfa') || fn.includes('belanja')) {
-                        predictedDesc = "Belanja Mingguan Alfamart";
-                        predictedAmount = 142000;
-                        predictedCat = "Belanja Impulsif";
-                    } else if (fn.includes('bensin') || fn.includes('pertamax') || fn.includes('spbu') || fn.includes('shell')) {
-                        predictedDesc = "Isi BBM Pertamax";
-                        predictedAmount = 60000;
-                        predictedCat = "BBM / Transportasi";
+                    if (fn.includes('kopi') || fn.includes('starbucks')) {
+                        predictedDesc = "Kopi Susu Gula Aren"; predictedAmount = 28000; predictedCat = "ShopeeFood/GoFood";
+                    } else if (fn.includes('indo') || fn.includes('maret') || fn.includes('alfa')) {
+                        predictedDesc = "Belanja Mingguan Alfamart"; predictedAmount = 142000; predictedCat = "Belanja Impulsif";
                     }
 
                     setTimeout(() => {
                         document.getElementById('form-desc').value = predictedDesc;
                         document.getElementById('form-amount').value = predictedAmount;
                         document.getElementById('form-cat').value = predictedCat;
-                        
                         closeOCRModal();
                         showToast(`Scan Cerdas Berhasil: "${predictedDesc}" (${formatRupiah(predictedAmount)})`, 'success');
                     }, 400);
@@ -1944,44 +1997,31 @@
             }, 150);
         }
 
-        // Demo Tombol instan
         function simulateMockReceiptScan() {
             document.getElementById('ocr-placeholder-content').classList.add('hidden');
             const imgElement = document.getElementById('ocr-receipt-img');
             imgElement.src = "https://images.unsplash.com/photo-1554415707-6e8cfc93fe23?auto=format&fit=crop&q=80&w=400";
             imgElement.classList.remove('hidden');
-            
             document.getElementById('ocr-laser').classList.remove('hidden');
-            const statusContainer = document.getElementById('ocr-scanning-status');
-            statusContainer.classList.remove('hidden');
-            
-            // Trigger scan dengan mock name
+            document.getElementById('ocr-scanning-status').classList.remove('hidden');
             processReceiptOCR({ files: [{ name: 'makan_siang_soto_betawi_restaurant.jpg', type: 'image/jpeg' }] });
         }
 
-        // ==================== END AI OCR SYSTEM ====================
-
-        // TOP UP INVESTASI DIORAMA LOGICS
+        // Investments
         function openTopUpModal() {
             const assetSelect = document.getElementById('topup-asset');
             const walletSelect = document.getElementById('topup-wallet');
-            
             assetSelect.innerHTML = '';
             state.investments.forEach((inv, index) => {
                 assetSelect.innerHTML += `<option value="${index}">${inv.name} (${inv.class})</option>`;
             });
-            
             walletSelect.innerHTML = '';
             Object.entries(state.accounts).forEach(([key, value]) => {
                 walletSelect.innerHTML += `<option value="${key}">${value.name} (Saldo: ${formatRupiah(value.balance)})</option>`;
             });
-            
             document.getElementById('modal-topup-investasi').classList.remove('hidden');
         }
-
-        function closeTopUpModal() {
-            document.getElementById('modal-topup-investasi').classList.add('hidden');
-        }
+        function closeTopUpModal() { document.getElementById('modal-topup-investasi').classList.add('hidden'); }
 
         function submitTopUpInvestment(e) {
             e.preventDefault();
@@ -1989,28 +2029,16 @@
             const walletKey = document.getElementById('topup-wallet').value;
             const amount = Number(document.getElementById('topup-amount').value);
             
-            if (amount <= 0) {
-                showToast('Nominal harus lebih besar dari Rp 0!', 'error');
-                return;
-            }
+            if (amount <= 0) { showToast('Nominal harus lebih besar dari Rp 0!', 'error'); return; }
+            if (state.accounts[walletKey].balance < amount) { showToast(`Saldo tidak mencukupi!`, 'error'); return; }
             
-            if (state.accounts[walletKey].balance < amount) {
-                showToast(`Saldo ${state.accounts[walletKey].name} Anda tidak mencukupi!`, 'error');
-                return;
-            }
-            
-            // Deduct balance
             state.accounts[walletKey].balance -= amount;
-            
-            // Add onto asset
             const investment = state.investments[assetIndex];
             investment.currentVal += amount;
             investment.initialVal += amount;
             
-            // Log as transaction
-            const todayStr = new Date('2026-07-15').toISOString().split('T')[0];
             state.transactions.unshift({
-                date: todayStr,
+                date: new Date('2026-07-15').toISOString().split('T')[0],
                 desc: `Top Up ${investment.name}`,
                 category: 'Investasi',
                 amount: amount,
@@ -2020,38 +2048,25 @@
             
             calculateAggregates();
             updateCharts();
-            
-            if (state.activeTab === 'investments') {
-                renderInvestmentsTab();
-            } else if (state.activeTab === 'transactions') {
-                renderTransactionsTable();
-            }
-            
+            if (state.activeTab === 'investments') renderInvestmentsTab();
             closeTopUpModal();
-            showToast(`Top Up ${investment.name} sebesar ${formatRupiah(amount)} Berhasil!`, 'success');
+            showToast(`Top Up ${investment.name} Berhasil!`, 'success');
         }
 
         function triggerImportExcelSim() {
-            const bonusTx = {
+            state.transactions.unshift({
                 date: '2026-07-14',
                 desc: 'Impor Sukses: Penjualan Online',
                 category: 'Bonus / Sampingan',
                 amount: 1500000,
                 type: 'income',
                 account: 'BCA'
-            };
-            state.transactions.unshift(bonusTx);
+            });
             calculateAggregates();
-            renderTransactionsTable();
+            if (state.activeTab === 'transactions') renderTransactionsTable();
             updateCharts();
             runDiagnosticSimulation();
-            showToast('Impor file Excel Sukses! 15 Transaksi disinkronkan.', 'success');
-        }
-
-        function triggerAddSubscriptionSim() {
-            showToast('ChatGPT Plus Premium aktif berbayar!', 'success');
-            calculateAggregates();
-            renderSubscriptionsTab();
+            showToast('Impor file Excel Sukses! Transaksi disinkronkan.', 'success');
         }
 
         function submitQuickAddTransaction(e) {
@@ -2064,55 +2079,49 @@
             const date = document.getElementById('form-date').value;
 
             if (type === 'expense') {
-                if (state.accounts[account].balance < amount) {
-                    showToast('Maaf, saldo dompet Anda tidak mencukupi!', 'error');
-                    return;
-                }
+                if (state.accounts[account].balance < amount) { showToast('Maaf, saldo tidak mencukupi!', 'error'); return; }
                 state.accounts[account].balance -= amount;
             } else {
                 state.accounts[account].balance += amount;
             }
 
-            state.transactions.unshift({
-                date, desc, category, amount, type, account
-            });
-
+            state.transactions.unshift({ date, desc, category, amount, type, account });
             e.target.reset();
             closeQuickAddModal();
-            
             calculateAggregates();
             updateCharts();
             runDiagnosticSimulation();
-            
             showToast('Transaksi berhasil dicatat!', 'success');
-        }
-
-        function populateQuickAddFields() {
-            document.getElementById('form-date').value = '2026-07-15';
         }
 
         function openQuickAddModal() {
             document.getElementById('modal-quick-add').classList.remove('hidden');
+            document.getElementById('form-date').value = '2026-07-15';
         }
+        function closeQuickAddModal() { document.getElementById('modal-quick-add').classList.add('hidden'); }
 
-        function closeQuickAddModal() {
-            document.getElementById('modal-quick-add').classList.add('hidden');
-        }
-
-        // ==================== INTERACTIVE AI CONSULTING SIMULATION ====================
-        
+        // AI Advisory
         function runDiagnosticSimulation() {
             const diagnosticsContainer = document.getElementById('ai-diagnostics-container');
             if(!diagnosticsContainer) return;
             diagnosticsContainer.innerHTML = '';
 
-            let shopeeCount = 0;
-            let grabGojekCount = 0;
-            let paylaterBillTotal = 0;
+            if (state.filteredTransactions.length === 0) {
+                diagnosticsContainer.innerHTML = `
+                    <div class="bg-darkBg/60 p-4 rounded-2xl border border-blue-500/10 text-center py-6">
+                        <i class="fas fa-seedling text-3xl text-emerald-400 mb-3 animate-pulse"></i>
+                        <h4 class="text-xs font-bold text-white uppercase">Mulai Perjalanan Anda</h4>
+                        <p class="text-[11px] text-gray-400 mt-2">Belum ada transaksi dicatat. AI memerlukan data mutasi untuk menganalisis kesehatan keuangan Anda.</p>
+                    </div>
+                `;
+                document.getElementById('dashboard-ai-advice').innerText = "Selamat datang! Financely AI siap membantu Anda mengelola kekayaan.";
+                return;
+            }
 
+            let shopeeCount = 0;
+            let paylaterBillTotal = 0;
             state.filteredTransactions.forEach(tx => {
                 if(tx.category === 'ShopeeFood/GoFood') shopeeCount += tx.amount;
-                if(tx.category === 'Belanja Impulsif') grabGojekCount += tx.amount;
                 if(tx.category === 'PayLater / Cicilan') paylaterBillTotal += tx.amount;
             });
 
@@ -2123,55 +2132,12 @@
                         <span class="text-xs font-bold text-white flex items-center gap-2"><i class="fas fa-hamburger text-yellow-400"></i> Kebocoran Makan Online</span>
                         <span class="text-[10px] bg-yellow-500/15 text-yellow-400 font-bold px-2 py-0.5 rounded-full">Risiko Sedang</span>
                     </div>
-                    <p class="text-xs text-gray-400 mt-2">Pengeluaran GoFood/ShopeeFood Anda setara <strong>${shopeePercentOfWallet}%</strong> dari target bulanan. Disarankan beralih masak mandiri untuk menghemat Rp 1.2M/Tahun.</p>
-                </div>
-            `;
-            if (shopeePercentOfWallet > 15) {
-                foodDiagnostic = `
-                    <div class="bg-darkBg/60 p-4 rounded-2xl border border-red-500/10">
-                        <div class="flex items-center justify-between">
-                            <span class="text-xs font-bold text-white flex items-center gap-2"><i class="fas fa-hamburger text-red-400"></i> Adiksi Delivery Makanan</span>
-                            <span class="text-[10px] bg-red-500/15 text-red-400 font-bold px-2 py-0.5 rounded-full">Kritis</span>
-                        </div>
-                        <p class="text-xs text-gray-400 mt-2">Peringatan: Pengeluaran makan online Anda mencapai <strong>${shopeePercentOfWallet}%</strong> dari total kuota! Ini adalah kebocoran finansial terbesar Anda bulan ini.</p>
-                    </div>
-                `;
-            }
-
-            let debtDiagnostic = `
-                <div class="bg-darkBg/60 p-4 rounded-2xl border border-emerald-500/10">
-                    <div class="flex items-center justify-between">
-                        <span class="text-xs font-bold text-white flex items-center gap-2"><i class="fas fa-credit-card text-emerald-400"></i> Rasio Cicilan Paylater</span>
-                        <span class="text-[10px] bg-emerald-500/15 text-emerald-400 font-bold px-2 py-0.5 rounded-full">Aman</span>
-                    </div>
-                    <p class="text-xs text-gray-400 mt-2">Beban cicilan bulanan Anda terkontrol di bawah batas aman psikologis 30% pendapatan bersih.</p>
-                </div>
-            `;
-            if (paylaterBillTotal > 2000000) {
-                debtDiagnostic = `
-                    <div class="bg-darkBg/60 p-4 rounded-2xl border border-red-500/10">
-                        <div class="flex items-center justify-between">
-                            <span class="text-xs font-bold text-white flex items-center gap-2"><i class="fas fa-credit-card text-red-400"></i> Jebakan Konsumerisme PayLater</span>
-                            <span class="text-[10px] bg-red-500/15 text-red-400 font-bold px-2 py-0.5 rounded-full">Kritis</span>
-                        </div>
-                        <p class="text-xs text-gray-400 mt-2">Beban tagihan Spaylater & GoPaylater Anda melampaui Rp 2.000.000/bulan. Hentikan pembelian impulsif menggunakan limit hutang!</p>
-                    </div>
-                `;
-            }
-
-            const emergencyDiagnostic = `
-                <div class="bg-darkBg/60 p-4 rounded-2xl border border-yellow-500/10">
-                    <div class="flex items-center justify-between">
-                        <span class="text-xs font-bold text-white flex items-center gap-2"><i class="fas fa-shield-alt text-yellow-400"></i> Evaluasi Dana Darurat</span>
-                        <span class="text-[10px] bg-yellow-500/15 text-yellow-400 font-bold px-2 py-0.5 rounded-full">Kurang</span>
-                    </div>
-                    <p class="text-xs text-gray-400 mt-2">Dana darurat Anda baru mencakup pengeluaran hidup selama 2.5 Bulan. Rekomendasi: Kurangi anggaran gaya hidup weekend.</p>
+                    <p class="text-xs text-gray-400 mt-2">Pengeluaran GoFood/Shopee harian Anda setara <strong>${shopeePercentOfWallet}%</strong> dari target bulanan.</p>
                 </div>
             `;
 
-            diagnosticsContainer.innerHTML = foodDiagnostic + debtDiagnostic + emergencyDiagnostic;
-
-            document.getElementById('dashboard-ai-advice').innerText = `Halo Rako Putra Magazen! Dari mutasi pengeluaran terbaru, AI mendeteksi adanya inflasi gaya hidup (lifestyle inflation). Pengeluaran makan online (ShopeeFood/GoFood) Anda mendominasi sebesar ${shopeePercentOfWallet}% dari keseluruhan pengeluaran bulanan. Segera batasi sebelum tabungan darurat terpakai!`;
+            diagnosticsContainer.innerHTML = foodDiagnostic;
+            document.getElementById('dashboard-ai-advice').innerText = `Halo ${state.profile.name}! Dari mutasi pengeluaran terbaru, AI mendeteksi sisa anggaran harian Anda berjalan optimal. Pertahankan!`;
         }
 
         function sendChatMessage() {
@@ -2190,23 +2156,10 @@
                     <div class="w-8 h-8 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold shrink-0 text-sm">ME</div>
                 </div>
             `;
-
             chatLog.scrollTop = chatLog.scrollHeight;
 
             setTimeout(() => {
-                let botText = "Saya mendeteksi pertanyaan Anda. Berdasarkan data keuangan 5 tahun terakhir, alokasi dana darurat Anda masih harus ditingkatkan. Pastikan cicilan bulanan Anda tidak melebihi 30% dari penghasilan bulanan.";
-                
-                const q = userText.toLowerCase();
-                if (q.includes('paylater') || q.includes('hutang') || q.includes('pinjol')) {
-                    botText = "Peringatan PayLater: Saat ini Anda terdaftar memiliki cicilan di SPayLater & GoPayLater dengan total kewajiban Rp 4.700.000. Untuk melunasinya lebih cepat, prioritaskan metode Debt Avalanche (lunasi bunga terbesar dahulu) dan hentikan pemakaian limit belanja impulsif di e-commerce.";
-                } else if (q.includes('shopee') || q.includes('gofood') || q.includes('boros') || q.includes('hemat')) {
-                    botText = "Berdasarkan laporan pengeluaran harian Anda, kebocoran terbesar terjadi pada hari Jumat malam dan Sabtu sore (Weekend Effect). Solusi praktis: buatlah perencanaan makan (meal prep) mingguan di hari Minggu, ini bisa memotong biaya makan Anda hingga 60% per bulan.";
-                } else if (q.includes('investasi') || q.includes('saham') || q.includes('emas')) {
-                    botText = "Diversifikasi Investasi Anda tergolong bagus dengan pembagian Saham (TLKM, BBCA), Emas Antam, dan Crypto. AI merekomendasikan untuk menaikkan tabungan reksadana Sucorinvest sebesar 15% setiap bulan gajian demi menjaga kestabilan likuiditas darurat.";
-                } else if (q.includes('dana darurat') || q.includes('saving')) {
-                    botText = "Kebutuhan dana darurat ideal Anda sebagai single adalah Rp 15.000.000 (3 bulan pengeluaran). Saat ini Anda baru mengumpulkan sekitar 40%. Disarankan untuk mengalihkan bonus freelance bulan depan 100% langsung ke rekening Dana Darurat terpisah.";
-                }
-
+                let botText = `Saran AI: Halo ${state.profile.name}, mari kembangkan porsi tabungan otomatis Anda setiap awal bulan agar terhindar dari inflasi gaya hidup.`;
                 chatLog.innerHTML += `
                     <div class="flex items-start gap-3">
                         <div class="w-8 h-8 rounded-full bg-purple-600 text-white flex items-center justify-center font-bold shrink-0 text-sm">AI</div>
@@ -2219,164 +2172,58 @@
             }, 1000);
         }
 
-        // Global aggregates calculator
         function calculateAggregates() {
             applyPeriodFilter();
-            
-            let totalIncome = 0;
-            let totalExpense = 0;
-            
+            let totalIncome = 0; let totalExpense = 0;
             state.filteredTransactions.forEach(tx => {
                 if (tx.type === 'income') totalIncome += tx.amount;
                 else if (tx.type === 'expense') totalExpense += tx.amount;
             });
 
-            const daysInLog = 30;
-            const avgDailyExpense = Math.round(totalExpense / daysInLog);
-            const emTarget3 = avgDailyExpense * 90;
-            const emTarget6 = avgDailyExpense * 180;
-            const emTarget12 = avgDailyExpense * 365;
-
-            document.getElementById('em-target-3m').innerText = formatRupiah(emTarget3);
-            document.getElementById('em-target-6m').innerText = formatRupiah(emTarget6);
-            document.getElementById('em-target-12m').innerText = formatRupiah(emTarget12);
-
             let totalAssets = 0;
-            Object.values(state.accounts).forEach(acc => {
-                totalAssets += acc.balance;
-            });
-            state.investments.forEach(inv => {
-                totalAssets += inv.currentVal;
-            });
-            state.goals.forEach(g => {
-                totalAssets += g.saved;
-            });
+            Object.values(state.accounts).forEach(acc => { totalAssets += acc.balance; });
+            state.investments.forEach(inv => { totalAssets += inv.currentVal; });
+            state.goals.forEach(g => { totalAssets += g.saved; });
 
             let totalLiabilities = 0;
-            state.debts.forEach(d => {
-                totalLiabilities += d.amount;
-            });
+            state.debts.forEach(d => { totalLiabilities += d.amount; });
 
             const netWorth = totalAssets - totalLiabilities;
-
             document.getElementById('summary-networth').innerText = formatRupiah(netWorth);
             document.getElementById('summary-total-assets').innerText = formatRupiah(totalAssets);
             document.getElementById('summary-total-liabilities').innerText = formatRupiah(totalLiabilities);
 
-            const emFundSavings = state.accounts.BCA.balance * 0.4 + state.accounts.Cash.balance;
-            document.getElementById('em-progress-text').innerText = `${formatRupiah(emFundSavings)} / ${formatRupiah(emTarget6)} (6 Bulan)`;
-            const emFundPct = Math.min(100, Math.round((emFundSavings / emTarget6) * 100));
-            document.getElementById('em-progress-bar').style.width = `${emFundPct}%`;
-
-            if (emFundPct < 30) {
-                document.getElementById('emergency-status-badge').innerText = 'Bahaya (Kritis)';
-                document.getElementById('emergency-status-badge').className = 'px-3 py-1 rounded-full text-xs font-bold bg-red-500/10 text-red-400 border border-red-500/20';
-            } else if (emFundPct < 70) {
-                document.getElementById('emergency-status-badge').innerText = 'Waspada (Menengah)';
-                document.getElementById('emergency-status-badge').className = 'px-3 py-1 rounded-full text-xs font-bold bg-yellow-500/10 text-yellow-400 border border-yellow-500/20';
-            } else {
-                document.getElementById('emergency-status-badge').innerText = 'Aman';
-                document.getElementById('emergency-status-badge').className = 'px-3 py-1 rounded-full text-xs font-bold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20';
-            }
-
-            const remainingBudget = Math.max(0, 15000000 - totalExpense);
-            const daysRemaining = 16;
-            const safeSpendToday = Math.round(remainingBudget / daysRemaining);
-            document.getElementById('summary-safe-spend').innerText = formatRupiah(safeSpendToday);
-
-            const forecastBalance = totalIncome - totalExpense;
-            document.getElementById('summary-monthly-forecast').innerText = formatRupiah(forecastBalance);
-            const performanceLbl = document.getElementById('lbl-monthly-performance');
-            if (forecastBalance < 0) {
-                performanceLbl.innerText = 'Defisit';
-                performanceLbl.className = 'text-xs text-red-400 font-semibold';
-            } else {
-                performanceLbl.innerText = 'Surplus';
-                performanceLbl.className = 'text-xs text-emerald-400 font-semibold';
-            }
-
-            const savingRate = totalIncome > 0 ? Math.round(((totalIncome - totalExpense) / totalIncome) * 100) : 0;
-            document.getElementById('summary-saving-rate').innerText = `${savingRate}%`;
-
-            const avgDaily = Math.round(totalExpense / 30);
-            document.getElementById('summary-avg-spend').innerText = `${formatRupiah(avgDaily)}/Hari`;
-
             renderBudgetCards(totalExpense);
-
-            let subMonthlyCost = 0;
-            state.subscriptions.forEach(sub => {
-                subMonthlyCost += sub.cost;
-            });
-            document.getElementById('sub-total-monthly').innerText = formatRupiah(subMonthlyCost);
-
-            populateQuickAddFields();
         }
 
-        // ==================== CHART GENERATION & MANAGEMENT (CHART.JS) ====================
-        let cashflowChart, expenseChart, invAllocChart, incExpChart;
-
+        // Charts
+        let cashflowChart, expenseChart, incExpChart, invAllocChart;
         function initCharts() {
             const ctx1 = document.getElementById('chart-cashflow-networth');
             if (ctx1) {
                 cashflowChart = new Chart(ctx1, {
                     type: 'line',
                     data: {
-                        labels: ['2021', '2022', '2023', '2024', '2025', '2026 (Juli)'],
+                        labels: ['2021', '2022', '2023', '2024', '2025', '2026'],
                         datasets: [
-                            {
-                                label: 'Kekayaan Bersih (Net Worth)',
-                                data: [12000000, 28000000, 52000000, 89000000, 115000000, 131000000],
-                                borderColor: '#10B981',
-                                backgroundColor: 'rgba(16, 185, 129, 0.1)',
-                                fill: true,
-                                tension: 0.4
-                            },
-                            {
-                                label: 'Rata-rata Arus Kas Bulanan',
-                                data: [4500000, 6800000, 8200000, 12000000, 15000000, 18200000],
-                                borderColor: '#3B82F6',
-                                backgroundColor: 'rgba(59, 130, 246, 0.1)',
-                                fill: false,
-                                tension: 0.4
-                            }
+                            { label: 'Kekayaan Bersih (Net Worth)', data: [0, 0, 0, 0, 0, 0], borderColor: '#10B981', fill: true, tension: 0.4 },
+                            { label: 'Rata-rata Arus Kas', data: [0, 0, 0, 0, 0, 0], borderColor: '#3B82F6', fill: false, tension: 0.4 }
                         ]
                     },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        plugins: {
-                            legend: { labels: { color: '#9CA3AF', font: { family: 'Plus Jakarta Sans' } } }
-                        },
-                        scales: {
-                            y: { grid: { color: '#1E2640' }, ticks: { color: '#9CA3AF' } },
-                            x: { grid: { color: '#1E2640' }, ticks: { color: '#9CA3AF' } }
-                        }
-                    }
+                    options: { responsive: true, maintainAspectRatio: false }
                 });
             }
-
             const ctx2 = document.getElementById('chart-expense-destinations');
             if (ctx2) {
                 expenseChart = new Chart(ctx2, {
                     type: 'doughnut',
                     data: {
-                        labels: ['Makan Online', 'Belanja Impulsif', 'BBM/Transportasi', 'Netflix/Spotify', 'Paylater/Cicilan'],
-                        datasets: [{
-                            data: [35, 25, 15, 10, 15],
-                            backgroundColor: ['#EF4444', '#F59E0B', '#3B82F6', '#8B5CF6', '#10B981'],
-                            borderWidth: 0
-                        }]
+                        labels: ['Makan Online', 'Belanja Impulsif', 'BBM/Transportasi', 'Langganan', 'Paylater/Cicilan'],
+                        datasets: [{ data: [0, 0, 0, 0, 0], backgroundColor: ['#EF4444', '#F59E0B', '#3B82F6', '#8B5CF6', '#10B981'] }]
                     },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        plugins: {
-                            legend: { position: 'bottom', labels: { color: '#9CA3AF', boxWidth: 12 } }
-                        }
-                    }
+                    options: { responsive: true, maintainAspectRatio: false }
                 });
             }
-
             const ctx3 = document.getElementById('chart-income-vs-expense');
             if (ctx3) {
                 incExpChart = new Chart(ctx3, {
@@ -2384,64 +2231,29 @@
                     data: {
                         labels: ['2021', '2022', '2023', '2024', '2025', '2026'],
                         datasets: [
-                            {
-                                label: 'Pendapatan',
-                                data: [120000000, 156000000, 192000000, 240000000, 280000000, 155000000],
-                                backgroundColor: '#10B981'
-                            },
-                            {
-                                label: 'Pengeluaran',
-                                data: [85000000, 110000000, 132000000, 160000000, 195000000, 98000000],
-                                backgroundColor: '#EF4444'
-                            }
+                            { label: 'Pendapatan', data: [0, 0, 0, 0, 0, 0], backgroundColor: '#10B981' },
+                            { label: 'Pengeluaran', data: [0, 0, 0, 0, 0, 0], backgroundColor: '#EF4444' }
                         ]
                     },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        plugins: {
-                            legend: { labels: { color: '#9CA3AF' } }
-                        },
-                        scales: {
-                            y: { grid: { color: '#1E2640' }, ticks: { color: '#9CA3AF' } },
-                            x: { grid: { color: '#1E2640' }, ticks: { color: '#9CA3AF' } }
-                        }
-                    }
+                    options: { responsive: true, maintainAspectRatio: false }
                 });
             }
-
             const ctx4 = document.getElementById('chart-investment-allocation');
             if (ctx4) {
                 invAllocChart = new Chart(ctx4, {
                     type: 'doughnut',
                     data: {
                         labels: ['Saham', 'Reksa Dana', 'Crypto', 'Emas'],
-                        datasets: [{
-                            data: [35, 30, 15, 20],
-                            backgroundColor: ['#3B82F6', '#10B981', '#8B5CF6', '#F59E0B'],
-                            borderWidth: 0
-                        }]
+                        datasets: [{ data: [25, 25, 25, 25], backgroundColor: ['#3B82F6', '#10B981', '#8B5CF6', '#F59E0B'] }]
                     },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        plugins: {
-                            legend: { position: 'bottom', labels: { color: '#9CA3AF', boxWidth: 12 } }
-                        }
-                    }
+                    options: { responsive: true, maintainAspectRatio: false }
                 });
             }
         }
 
         function updateCharts() {
-            if (!cashflowChart || !expenseChart || !incExpChart || !invAllocChart) return;
-
-            let shopee = 0;
-            let impulsif = 0;
-            let transport = 0;
-            let sub = 0;
-            let paylater = 0;
-
+            if (!expenseChart) return;
+            let shopee = 0, impulsif = 0, transport = 0, sub = 0, paylater = 0;
             state.filteredTransactions.forEach(tx => {
                 if (tx.type === 'expense') {
                     if (tx.category === 'ShopeeFood/GoFood') shopee += tx.amount;
@@ -2451,22 +2263,43 @@
                     else if (tx.category === 'PayLater / Cicilan') paylater += tx.amount;
                 }
             });
-
-            if (shopee === 0 && impulsif === 0) {
-                shopee = 35; impulsif = 25; transport = 15; sub = 10; paylater = 15;
-            }
-
             expenseChart.data.datasets[0].data = [shopee, impulsif, transport, sub, paylater];
             expenseChart.update();
         }
 
-        function formatRupiah(num) {
-            return 'Rp ' + Number(num).toLocaleString('id-ID');
+        function triggerDemoDataLoad() {
+            showConfirm("Muat data simulasi lengkap?", () => {
+                generateLifetimeMockData();
+                state.debts = [
+                    { id: 'd1', name: 'SPayLater', amount: 3500000, dueDate: '2026-08-05', type: 'paylater', desc: 'Beli Gadget' }
+                ];
+                state.accounts.BCA.balance = 45000000;
+                state.accounts.Cash.balance = 1200000;
+                calculateAggregates();
+                if (state.activeTab === 'transactions') renderTransactionsTable();
+                if (cashflowChart) {
+                    cashflowChart.data.datasets[0].data = [12000000, 28000000, 52000000, 89000000, 115000000, 131000000];
+                    cashflowChart.update();
+                }
+                updateCharts();
+                runDiagnosticSimulation();
+                showToast("Data demo berhasil dimuat!", "success");
+            });
         }
 
-        // ==================== CORE INITIALIZATION ====================
+        function formatRupiah(num) { return 'Rp ' + Number(num).toLocaleString('id-ID'); }
+
+        // ==================== INITIALIZATION ====================
         window.onload = function() {
-            generateLifetimeMockData();
+            // Periksa Session Sekali Login dari Penyimpanan Lokal
+            const savedProfile = localStorage.getItem('financely_profile');
+            if (!savedProfile) {
+                // Tampilkan Onboarding Modal jika belum pernah login
+                document.getElementById('modal-first-login').classList.remove('hidden');
+            } else {
+                state.profile = JSON.parse(savedProfile);
+                renderProfile();
+            }
             switchTab('dashboard');
             calculateAggregates();
             initCharts();
