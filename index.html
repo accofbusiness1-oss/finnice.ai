@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Financely AI - Personal Finance Indonesia</title>
+    <title>FinNice AI - Personal Finance Indonesia</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Chart.js -->
@@ -88,7 +88,7 @@
                     <i class="fas fa-wallet text-white text-xl"></i>
                 </div>
                 <div>
-                    <h1 class="text-xl font-extrabold tracking-tight bg-gradient-to-r from-white via-gray-200 to-blue-500 bg-clip-text text-transparent">Financely AI</h1>
+                    <h1 class="text-xl font-extrabold tracking-tight bg-gradient-to-r from-white via-gray-200 to-blue-500 bg-clip-text text-transparent">FinNice AI</h1>
                     <p class="text-[10px] text-gray-500 font-semibold tracking-wider uppercase">Personal Wealth Manager</p>
                 </div>
             </div>
@@ -142,7 +142,7 @@
             <button onclick="triggerDemoDataLoad()" class="w-full bg-blue-900/10 hover:bg-blue-900/30 text-gray-500 hover:text-blue-400 py-1.5 rounded-lg text-[10px] font-bold transition flex items-center justify-center gap-1 border border-gray-850">
                 <i class="fas fa-database text-blue-500"></i> Muat Data Demo (Testing)
             </button>
-            <p class="text-xs text-gray-500">Financely AI Premium v2.5</p>
+            <p class="text-xs text-gray-500">FinNice AI Premium v2.5</p>
             <p class="text-[10px] text-gray-600 mt-1">Production Ready Edition</p>
         </div>
     </aside>
@@ -153,7 +153,7 @@
             <div class="bg-blue-600 p-1.5 rounded-lg">
                 <i class="fas fa-wallet text-white text-base"></i>
             </div>
-            <span class="text-lg font-bold text-white tracking-wide">Financely AI</span>
+            <span class="text-lg font-bold text-white tracking-wide">FinNice AI</span>
         </div>
         <div class="flex items-center gap-3">
             <button onclick="openQuickAddModal()" class="bg-blue-600 hover:bg-blue-500 text-white p-2 rounded-lg text-sm">
@@ -399,7 +399,7 @@
                     <div class="bg-purple-500/25 p-2 rounded-xl text-purple-400">
                         <i class="fas fa-brain"></i>
                     </div>
-                    <h3 class="text-md font-extrabold text-white">Analisis Instan Financely AI</h3>
+                    <h3 class="text-md font-extrabold text-white">Analisis Instan FinNice AI</h3>
                 </div>
                 <p id="dashboard-ai-advice" class="text-sm text-gray-300 leading-relaxed">
                     Selamat datang! Catat transaksi pertama Anda dengan menekan tombol "+" di kanan bawah.
@@ -793,7 +793,7 @@
                 <div class="inline-flex bg-blue-600 p-4 rounded-2xl shadow-xl shadow-blue-500/20 mb-2">
                     <i class="fas fa-wallet text-white text-3xl"></i>
                 </div>
-                <h2 class="text-2xl font-extrabold text-white tracking-tight">Selamat Datang di Financely AI</h2>
+                <h2 class="text-2xl font-extrabold text-white tracking-tight">Selamat Datang di FinNice AI</h2>
                 <p class="text-xs text-gray-400">Silakan masukkan nama Anda untuk memulai sistem pencatatan keuangan premium yang dipersonalisasi khusus untuk Anda.</p>
             </div>
             
@@ -1152,138 +1152,147 @@
     </div>
 
     <!-- ==================== CORE JAVASCRIPT ==================== -->
-    <script>
-        // ==================== KONTROL KEAMANAN LISENSI ====================
-        // GANTI "MOCK_URL" DENGAN WEB APP URL ASLI SETELAH DEPLOY DI APPS SCRIPT
-        const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbzo9cD7GgOFaUOfZ_2smBFk0U82QtSTD67FPajSwSAPNqzpguEdmRWZq2WH-zuiJMTS8w/exec";
+<script>
+    // ==================== KONTROL KEAMANAN LISENSI ====================
+    // GANTI "MOCK_URL" DENGAN WEB APP URL ASLI SETELAH DEPLOY DI APPS SCRIPT
+    const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbzo9cD7GgOFaUOfZ_2smBFk0U82QtSTD67FPajSwSAPNqzpguEdmRWZq2WH-zuiJMTS8w/exec";
 
-        // Generator ID Perangkat Unik Otomatis (Device Locking Fingerprint)
-        function getOrCreateDeviceID() {
-            let deviceId = localStorage.getItem("financely_device_id");
-            if (!deviceId) {
-                deviceId = "DEV-" + Math.random().toString(36).substring(2, 15) + Date.now().toString(36);
-                localStorage.setItem("financely_device_id", deviceId);
-            }
-            return deviceId;
+    // Generator ID Perangkat Unik Otomatis (Device Locking Fingerprint)
+    function getOrCreateDeviceID() {
+        let deviceId = localStorage.getItem("financely_device_id");
+        if (!deviceId) {
+            deviceId = "DEV-" + Math.random().toString(36).substring(2, 15) + Date.now().toString(36);
+            localStorage.setItem("financely_device_id", deviceId);
         }
+        return deviceId;
+    }
 
-        // Tampilkan Modal Aktivasi Lisensi secara dinamis dan paksa
-        function showLicenseModal() {
-            // Hapus modal lama jika ada untuk mencegah duplikasi
-            const existingModal = document.getElementById("security-license-modal");
-            if (existingModal) existingModal.remove();
+    // Tampilkan Modal Aktivasi Lisensi secara dinamis dan paksa
+    function showLicenseModal() {
+        // Hapus modal lama jika ada untuk mencegah duplikasi
+        const existingModal = document.getElementById("security-license-modal");
+        if (existingModal) existingModal.remove();
 
-            const modal = document.createElement("div");
-            modal.id = "security-license-modal";
-            modal.className = "fixed inset-0 bg-darkBg z-[1000] flex items-center justify-center p-4 backdrop-blur-md";
-            modal.innerHTML = `
-                <div class="bg-darkCard p-8 rounded-3xl border border-blue-500/30 max-w-md w-full text-center space-y-6 shadow-2xl relative overflow-hidden">
-                    <div class="absolute -top-12 -right-12 w-32 h-32 bg-blue-500/10 rounded-full blur-2xl"></div>
-                    <div class="bg-blue-600/10 p-4 rounded-full w-20 h-20 mx-auto flex items-center justify-center text-blue-500 shadow-lg shadow-blue-500/10">
-                        <i class="fas fa-key text-3xl"></i>
-                    </div>
-                    <div>
-                        <h3 class="text-xl font-extrabold text-white tracking-tight">Aktivasi Lisensi Financely AI</h3>
-                        <p class="text-xs text-gray-400 mt-2">Aplikasi premium ini dilindungi oleh Lisensi Digital Perangkat Tunggal. Silakan masukkan kunci lisensi pembelian Anda untuk membuka akses.</p>
-                    </div>
-                    <div>
-                        <input type="text" id="input-license-key" placeholder="PREMIUM-XXXX-XXXX" class="w-full bg-darkBg border border-gray-800 rounded-xl px-4 py-3.5 text-center text-white tracking-widest font-mono focus:border-blue-500 outline-none text-sm transition">
-                        <p id="license-error-msg" class="text-[11px] text-red-400 mt-2 hidden">Kunci lisensi salah atau perangkat tidak cocok!</p>
-                    </div>
-                    <button onclick="submitLicense()" id="btn-activate" class="w-full bg-blue-600 hover:bg-blue-500 text-white py-3.5 rounded-xl text-xs font-extrabold transition shadow-lg shadow-blue-500/20">Aktivasi Sekarang</button>
-                    <p class="text-[9px] text-gray-600 tracking-wider">ID PERANGKAT ANDA: ${getOrCreateDeviceID()}</p>
+        const modal = document.createElement("div");
+        modal.id = "security-license-modal";
+        modal.className = "fixed inset-0 bg-darkBg z-[1000] flex items-center justify-center p-4 backdrop-blur-md";
+        modal.innerHTML = `
+            <div class="bg-darkCard p-8 rounded-3xl border border-blue-500/30 max-w-md w-full text-center space-y-6 shadow-2xl relative overflow-hidden">
+                <div class="absolute -top-12 -right-12 w-32 h-32 bg-blue-500/10 rounded-full blur-2xl"></div>
+                <div class="bg-blue-600/10 p-4 rounded-full w-20 h-20 mx-auto flex items-center justify-center text-blue-500 shadow-lg shadow-blue-500/10">
+                    <i class="fas fa-key text-3xl"></i>
                 </div>
-            `;
-            document.body.appendChild(modal);
+                <div>
+                    <h3 class="text-xl font-extrabold text-white tracking-tight">Aktivasi Lisensi FinNice AI</h3>
+                    <p class="text-xs text-gray-400 mt-2">Aplikasi premium ini dilindungi oleh Lisensi Digital Perangkat Tunggal. Silakan masukkan kunci lisensi pembelian Anda untuk membuka akses.</p>
+                </div>
+                <div>
+                    <input type="text" id="input-license-key" placeholder="PREMIUM-XXXX-XXXX" class="w-full bg-darkBg border border-gray-800 rounded-xl px-4 py-3.5 text-center text-white tracking-widest font-mono focus:border-blue-500 outline-none text-sm transition">
+                    <p id="license-error-msg" class="text-[11px] text-red-400 mt-2 hidden">Kunci lisensi salah atau perangkat tidak cocok!</p>
+                </div>
+                <button onclick="submitLicense()" id="btn-activate" class="w-full bg-blue-600 hover:bg-blue-500 text-white py-3.5 rounded-xl text-xs font-extrabold transition shadow-lg shadow-blue-500/20">Aktivasi Sekarang</button>
+                <p class="text-[9px] text-gray-600 tracking-wider">ID PERANGKAT ANDA: ${getOrCreateDeviceID()}</p>
+            </div>
+        `;
+        document.body.appendChild(modal);
+    }
+
+    // Jalankan validasi lisensi ke Cloud Backend GAS dengan Mekanisme Get Fallback yang Tangguh
+    async function submitLicense() {
+        const key = document.getElementById("input-license-key").value.trim();
+        const btn = document.getElementById("btn-activate");
+        const errMsg = document.getElementById("license-error-msg");
+        const deviceId = getOrCreateDeviceID();
+        
+        if (!key) {
+            showToast("Kunci lisensi tidak boleh kosong!", "error");
+            return;
         }
+        
+        btn.disabled = true;
+        btn.innerText = "Memverifikasi Lisensi...";
+        errMsg.classList.add("hidden");
 
-        // Jalankan validasi lisensi ke Cloud Backend GAS
-        async function submitLicense() {
-            const key = document.getElementById("input-license-key").value.trim();
-            const btn = document.getElementById("btn-activate");
-            const errMsg = document.getElementById("license-error-msg");
-            const deviceId = getOrCreateDeviceID();
-            
-            if (!key) {
-                showToast("Kunci lisensi tidak boleh kosong!", "error");
-                return;
+        // Mode Pengujian Lokal / Bypass jika URL GAS belum diganti pembeli
+        if (WEB_APP_URL === "MASUKKAN_URL_WEB_APP_GOOGLE_APPS_SCRIPT_ANDA_DI_SINI") {
+            if (key === "PREMIUM-TEST-123") {
+                localStorage.setItem("financely_activated", "true");
+                localStorage.setItem("financely_license_key", key);
+                document.getElementById("security-license-modal").remove();
+                showToast("Aktivasi Sukses (Simulasi Demo)!", "success");
+                initializeMainApplication();
+            } else {
+                btn.disabled = false;
+                btn.innerText = "Aktivasi Sekarang";
+                errMsg.innerText = "Gagal: Gunakan kunci 'PREMIUM-TEST-123' untuk uji coba lokal sebelum memasang URL GAS asli.";
+                errMsg.classList.remove("hidden");
             }
-            
-            btn.disabled = true;
-            btn.innerText = "Memverifikasi Lisensi...";
-            errMsg.classList.add("hidden");
-
-            // Mode Pengujian Lokal / Bypass jika URL GAS belum diganti pembeli
-            if (WEB_APP_URL === "MASUKKAN_URL_WEB_APP_GOOGLE_APPS_SCRIPT_ANDA_DI_SINI") {
-                // Simulasi offline jika URL belum diganti (kunci tester: PREMIUM-TEST-123)
-                if (key === "PREMIUM-TEST-123") {
-                    localStorage.setItem("financely_activated", "true");
-                    localStorage.setItem("financely_license_key", key);
-                    document.getElementById("security-license-modal").remove();
-                    showToast("Aktivasi Sukses (Simulasi Demo)!", "success");
-                    initializeMainApplication();
-                } else {
-                    btn.disabled = false;
-                    btn.innerText = "Aktivasi Sekarang";
-                    errMsg.innerText = "Gagal: Gunakan kunci 'PREMIUM-TEST-123' untuk uji coba lokal sebelum memasang URL GAS asli.";
-                    errMsg.classList.remove("hidden");
-                }
-                return;
-            }
+            return;
+        }
+        
+        try {
+            let data = null;
             
             try {
+                // Upaya Pertama: Kirim data lewat POST (Standar)
                 const response = await fetch(WEB_APP_URL, {
                     method: "POST",
-                    headers: { "Content-Type": "text/plain" }, // GAS menerima text plano dengan baik tanpa preflight CORS
+                    headers: { "Content-Type": "text/plain" },
                     body: JSON.stringify({
                         licenseKey: key,
                         deviceId: deviceId
                     })
                 });
+                data = await response.json();
+            } catch (postError) {
+                console.warn("Metode POST gagal / terhalang CORS. Menggunakan taktik GET Fallback...", postError);
                 
-                const data = await response.json();
-                
-                if (data.success) {
-                    localStorage.setItem("financely_activated", "true");
-                    localStorage.setItem("financely_license_key", key);
-                    document.getElementById("security-license-modal").remove();
-                    showToast("Aplikasi Berhasil Diaktivasi!", "success");
-                    initializeMainApplication();
-                } else {
-                    errMsg.innerText = data.message;
-                    errMsg.classList.remove("hidden");
-                }
-            } catch (err) {
-                showToast("Gagal menghubungi server lisensi. Periksa koneksi internet Anda.", "error");
-            } finally {
+                // Upaya Kedua (Fallback): Kirim data lewat GET yang 100% kebal blokir CORS Browser pada redirect GAS
+                const fallbackUrl = `${WEB_APP_URL}?licenseKey=${encodeURIComponent(key)}&deviceId=${encodeURIComponent(deviceId)}`;
+                const response = await fetch(fallbackUrl);
+                data = await response.json();
+            }
+            
+            if (data && data.success) {
+                localStorage.setItem("financely_activated", "true");
+                localStorage.setItem("financely_license_key", key);
+                document.getElementById("security-license-modal").remove();
+                showToast("Aplikasi Berhasil Diaktivasi!", "success");
+                initializeMainApplication();
+            } else {
                 btn.disabled = false;
                 btn.innerText = "Aktivasi Sekarang";
+                errMsg.innerText = data ? data.message : "Gagal memverifikasi lisensi.";
+                errMsg.classList.remove("hidden");
             }
+        } catch (err) {
+            console.error("Authentication Error:", err);
+            btn.disabled = false;
+            btn.innerText = "Aktivasi Sekarang";
+            errMsg.innerText = "Gagal menghubungi server. Pastikan URL Apps Script benar & spreadsheet telah di-deploy.";
+            errMsg.classList.remove("hidden");
+            showToast("Gagal menghubungi server lisensi. Periksa koneksi internet Anda.", "error");
         }
+    }
 
-        // Verifikasi diam-diam di background agar aman dari manipulasi inspect element / offline
-        async function verifyLicenseSilent(key, deviceId) {
-            if (WEB_APP_URL === "MASUKKAN_URL_WEB_APP_GOOGLE_APPS_SCRIPT_ANDA_DI_SINI") return;
-            try {
-                const res = await fetch(WEB_APP_URL, {
-                    method: "POST",
-                    headers: { "Content-Type": "text/plain" },
-                    body: JSON.stringify({ licenseKey: key, deviceId: deviceId })
-                });
-                const data = await res.json();
-                if (!data.success) {
-                    // Jika lisensi dinonaktifkan di Google Sheet
-                    localStorage.removeItem("financely_activated");
-                    localStorage.removeItem("financely_license_key");
-                    showToast("Lisensi dinonaktifkan atau dibatalkan oleh admin.", "error");
-                    setTimeout(() => { location.reload(); }, 2000);
-                }
-            } catch(e) {
-                // Abaikan jika user offline sementara agar user tetap bisa menggunakan aplikasi saat tidak ada sinyal
+    // Verifikasi diam-diam di background agar aman dari manipulasi inspect element / offline
+    async function verifyLicenseSilent(key, deviceId) {
+        if (WEB_APP_URL === "MASUKKAN_URL_WEB_APP_GOOGLE_APPS_SCRIPT_ANDA_DI_SINI") return;
+        try {
+            const res = await fetch(`${WEB_APP_URL}?licenseKey=${encodeURIComponent(key)}&deviceId=${encodeURIComponent(deviceId)}`);
+            const data = await res.json();
+            if (!data.success) {
+                localStorage.removeItem("financely_activated");
+                localStorage.removeItem("financely_license_key");
+                showToast("Lisensi dinonaktifkan atau dibatalkan oleh admin.", "error");
+                setTimeout(() => { location.reload(); }, 2000);
             }
+        } catch(e) {
+            // Abaikan jika offline agar pengguna tetap dapat memakai aplikasi tanpa sinyal
         }
+    }
 
-        // ==================================================================
+    // ==================================================================
 
         // Pristine Production State
         const state = {
@@ -2247,7 +2256,7 @@
                         <p class="text-[11px] text-gray-400 mt-2">Belum ada transaksi dicatat. AI memerlukan data mutasi untuk menganalisis kesehatan keuangan Anda.</p>
                     </div>
                 `;
-                document.getElementById('dashboard-ai-advice').innerText = "Selamat datang! Financely AI siap membantu Anda mengelola kekayaan.";
+                document.getElementById('dashboard-ai-advice').innerText = "Selamat datang! FinNice AI siap membantu Anda mengelola kekayaan.";
                 return;
             }
 
